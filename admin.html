@@ -237,8 +237,23 @@
   function subirFotos(input){
     var files = Array.from(input.files||[]);
     files.forEach(function(file){
+      if(!/^image\//.test(file.type)) return;
       var reader = new FileReader();
-      reader.onload = function(ev){ fotosActuales.push(ev.target.result); pintarThumbs(); };
+      reader.onload = function(ev){
+        var img = new Image();
+        img.onload = function(){
+          // Comprimir: máximo 1400px de ancho y calidad 0.72 (fotos ligeras que caben en memoria)
+          var max = 1400, w = img.width, h = img.height;
+          if(w > max){ h = Math.round(h * max / w); w = max; }
+          var c = document.createElement('canvas'); c.width = w; c.height = h;
+          c.getContext('2d').drawImage(img, 0, 0, w, h);
+          try { fotosActuales.push(c.toDataURL('image/jpeg', 0.72)); }
+          catch(e){ fotosActuales.push(ev.target.result); }
+          pintarThumbs();
+        };
+        img.onerror = function(){ fotosActuales.push(ev.target.result); pintarThumbs(); };
+        img.src = ev.target.result;
+      };
       reader.readAsDataURL(file);
     });
     input.value='';
@@ -365,7 +380,8 @@
     const id=g('id');
     if(id){const i=l.findIndex(x=>x.id==id);obj.id=+id;l[i]=obj;}
     else{obj.id=Date.now();l.push(obj);}
-    smSetPropiedades(l);cerrar();pintar();
+    if(!smSetPropiedades(l)){ alert('No se pudo guardar. Seguramente las fotos ocupan demasiado para la memoria del navegador. Sube menos fotos o más ligeras (o bórralas y usa "Añadir por URL"). Recuerda: el gestor guarda en este navegador; para publicar casas reales para todos, pásamelas y las subo yo.'); return; }
+    cerrar();pintar();
   }
   document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrar();});
 </script>

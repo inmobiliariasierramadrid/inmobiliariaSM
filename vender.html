@@ -89,6 +89,20 @@
   </div>
 </section>
 
+<!-- CASAS VENDIDAS (prueba social) -->
+<section id="vendidas" style="display:none">
+  <div class="wrap">
+    <div class="sec-head center">
+      <span class="eyebrow">Ventas cerradas</span>
+      <h2>Casas que ya he vendido en la Sierra</h2>
+      <p>La mejor prueba de que las cosas se hacen bien es enseñar lo que ya está vendido. Estas son algunas de las viviendas que he ayudado a vender.</p>
+    </div>
+  </div>
+  <div class="wrap" style="max-width:100%;padding:0">
+    <div class="vendidas-carrusel" id="vendidas-carrusel"></div>
+  </div>
+</section>
+
 <!-- FORMULARIO VALORACIÓN -->
 <section class="contacto" id="valorar">
   <div class="wrap">
@@ -189,5 +203,32 @@
 
 <script src="data.js?v=11"></script>
 <script src="assets/site.js?v=11"></script>
+<script>
+  // Carrusel de casas vendidas (se muestra solo si hay alguna marcada como "vendida")
+  (function(){
+    var ic = smIconos();
+    var vendidas = smGetPropiedades().filter(function(p){ return p.vendido; });
+    var sec = document.getElementById('vendidas');
+    var cont = document.getElementById('vendidas-carrusel');
+    if(!vendidas.length){ return; }  // sin vendidas: la sección queda oculta
+    function card(p){
+      return '<div class="vendida-card">' +
+        '<div class="vendida-img" style="background-image:url(\'' + (p.fotos[0]||'') + '\')">' +
+          '<span class="vendida-sello">Vendida</span>' +
+        '</div>' +
+        '<div class="vendida-body">' +
+          '<div class="z">' + p.zona + ' · ' + p.tipo + '</div>' +
+          '<h3>' + p.titulo + '</h3>' +
+          '<div class="specs">' + p.habitaciones + ' dorm. · ' + p.banos + ' baños · ' + p.metros + ' m²</div>' +
+        '</div></div>';
+    }
+    var cards = vendidas.map(card).join('');
+    // duplicar para el bucle continuo (si hay pocas, triplicar para que llene)
+    var repes = vendidas.length < 4 ? 3 : 2;
+    var todo = ''; for(var i=0;i<repes;i++){ todo += cards; }
+    cont.innerHTML = '<div class="vendidas-track">' + todo + '</div>';
+    sec.style.display = '';
+  })();
+</script>
 </body>
 </html>

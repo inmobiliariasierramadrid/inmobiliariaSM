@@ -8,7 +8,7 @@
    estático funciona perfectamente y no depende de ningún servidor.
    ========================================================================= */
 
-const SM_STORAGE_KEY = 'fatima_rivas_propiedades_v4';
+const SM_STORAGE_KEY = 'fatima_rivas_propiedades_v5';
 
 /* --- Propiedades de ejemplo: 1-2 por pueblo, editables desde /admin -------- */
 const SM_SEED = [
@@ -66,7 +66,7 @@ const SM_SEED = [
     metros: 230,
     descripcion: 'Chalet de piedra con jardín consolidado y cipreses, en calle tranquila del pueblo. Mucho encanto serrano, garaje y espacio para huerto. Para entrar a vivir o actualizar a tu gusto.',
     fotos: ['https://images.unsplash.com/photo-1775344215207-ed90e37ece72?w=1200&q=80', 'https://images.unsplash.com/photo-1560449752-8b6023e2ab5a?w=1200&q=80'],
-    destacado: false, vendido: false, visible: true
+    destacado: false, vendido: true, visible: false
   },
   {
     id: 5,
@@ -94,7 +94,7 @@ const SM_SEED = [
     metros: 150,
     descripcion: 'Casa con jardín soleado a pocos minutos andando del apeadero de Cercanías. Tres dormitorios, cocina reformada y porche orientado al oeste. Ideal para vivir sin depender del coche.',
     fotos: ['https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=1200&q=80', 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=80'],
-    destacado: false, vendido: false, visible: true
+    destacado: false, vendido: true, visible: false
   },
   {
     id: 7,
@@ -189,7 +189,7 @@ function smGetPropiedades() {
   try { return JSON.parse(raw); }
   catch (e) { localStorage.setItem(SM_STORAGE_KEY, JSON.stringify(SM_SEED)); return JSON.parse(JSON.stringify(SM_SEED)); }
 }
-function smSetPropiedades(lista) { localStorage.setItem(SM_STORAGE_KEY, JSON.stringify(lista)); }
+function smSetPropiedades(lista) { try { localStorage.setItem(SM_STORAGE_KEY, JSON.stringify(lista)); return true; } catch(e) { return false; } }
 function smGetPublicas() { return smGetPropiedades().filter(p => p.visible); }
 function smGetPorZona(zona) { return smGetPublicas().filter(p => p.zona === zona); }
 function smGetPorId(id) { return smGetPropiedades().find(p => String(p.id) === String(id)); }
