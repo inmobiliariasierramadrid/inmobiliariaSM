@@ -58,6 +58,16 @@
   .checks input{width:auto}
   .panel-acts{display:flex;gap:12px;justify-content:flex-end;margin-top:24px}
   .hint{font-size:12px;color:var(--soft);margin-top:4px}
+  .importar{border:1px solid var(--clay);background:#fbf6f2;margin-bottom:18px}
+  .importar-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 14px;cursor:pointer;font-weight:600;color:var(--clay);font-size:14px}
+  .importar-head small{font-weight:400;color:var(--soft);font-size:12px}
+  .importar-chevron{transition:.2s}
+  .importar.open .importar-chevron{transform:rotate(180deg)}
+  .importar-body{display:none;padding:0 14px 14px}
+  .importar.open .importar-body{display:block}
+  .import-msg{font-size:13px;font-weight:600}
+  .import-msg.ok{color:var(--ok)}
+  .import-msg.warn{color:var(--clay)}
   .thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
   .thumbs .tb{position:relative;width:74px;height:56px;border-radius:8px;overflow:hidden;border:1px solid var(--linea)}
   .thumbs .tb img{width:100%;height:100%;object-fit:cover}
@@ -123,6 +133,23 @@
   <div class="panel">
     <h3 id="panel-tit">Añadir propiedad</h3>
     <input type="hidden" id="f-id">
+
+    <!-- IMPORTAR DESDE IDEALISTA (pegar texto del anuncio) -->
+    <div class="importar">
+      <div class="importar-head" onclick="this.parentNode.classList.toggle('open')">
+        <span>⚡ Importar desde Idealista <small>(pega el texto de tu anuncio y relleno los campos)</small></span>
+        <span class="importar-chevron">▾</span>
+      </div>
+      <div class="importar-body">
+        <p class="hint" style="margin:0 0 8px">Abre tu anuncio en Idealista, selecciona el texto (título, precio, m², habitaciones y descripción), cópialo y pégalo aquí. Las fotos las subes tú abajo.</p>
+        <textarea id="f-import" rows="4" placeholder="Pega aquí el texto de tu anuncio de Idealista…"></textarea>
+        <div style="display:flex;gap:10px;align-items:center;margin-top:8px;flex-wrap:wrap">
+          <button type="button" class="btn btn-clay btn-sm" onclick="smImportarTexto()">Rellenar campos</button>
+          <span class="import-msg" id="import-msg"></span>
+        </div>
+      </div>
+    </div>
+
     <label>Título</label>
     <input id="f-titulo" placeholder="Ej. Chalet luminoso junto a la sierra">
     <div class="row">
@@ -272,6 +299,57 @@
   function cerrar(){document.getElementById('ov').classList.remove('open');}
   function f(k,v){document.getElementById('f-'+k).value=v;}
   function g(k){return document.getElementById('f-'+k).value;}
+
+  /* --- Importar desde texto de Idealista ---------------------------------- */
+  function smImportarTexto(){
+    var raw = (document.getElementById('f-import').value || '').replace(/ /g,' ');
+    var msg = document.getElementById('import-msg');
+    if(!raw.trim()){ msg.className='import-msg warn'; msg.textContent='Pega antes el texto del anuncio.'; return; }
+    var txt = raw.replace(/\s+/g,' ');
+    var got = [];
+
+    // Precio: mayor número seguido de € (formato español 385.000)
+    var precios = [], m, re=/([0-9]{1,3}(?:[.\s][0-9]{3})+|[0-9]{4,7})\s*€/g;
+    while((m=re.exec(txt))){ precios.push(parseInt(m[1].replace(/[.\s]/g,''),10)); }
+    if(precios.length){ document.getElementById('f-precio').value = Math.max.apply(null,precios); got.push('precio'); }
+    // Alquiler si aparece €/mes o "/mes"
+    if(/€\s*\/\s*mes|\/mes|al mes/i.test(txt)){ document.getElementById('f-op').value='alquiler'; }
+
+    // Metros: "210 m²" / "98 m2" / "150 metros"
+    m = txt.match(/(\d{2,4})\s*(?:m²|m2|metros)/i);
+    if(m){ document.getElementById('f-metros').value = m[1]; got.push('metros'); }
+
+    // Dormitorios / habitaciones
+    m = txt.match(/(\d{1,2})\s*(?:hab\.?|habitacion|habitaciones|dormitorio|dormitorios)/i);
+    if(m){ document.getElementById('f-hab').value = m[1]; got.push('dormitorios'); }
+
+    // Baños
+    m = txt.match(/(\d{1,2})\s*(?:ba[ñn]o|ba[ñn]os|aseo|aseos)/i);
+    if(m){ document.getElementById('f-ban').value = m[1]; got.push('baños'); }
+
+    // Zona: detectar uno de los pueblos conocidos
+    var pueblos=['Collado Villalba','Becerril de la Sierra','Becerril','Los Negrales','Alpedrete','Moralzarzal','Guadarrama','Navacerrada','Cercedilla','Manzanares el Real'];
+    for(var i=0;i<pueblos.length;i++){ if(new RegExp(pueblos[i],'i').test(txt)){ document.getElementById('f-zona').value = pueblos[i]==='Becerril'?'Becerril de la Sierra':pueblos[i]; got.push('zona'); break; } }
+
+    // Tipo
+    var tipos=[['Chalet',/chalet/i],['Ático',/[áa]tico/i],['Dúplex',/d[úu]plex/i],['Adosado',/adosad/i],['Casa',/\bcasa\b/i],['Piso',/\bpiso\b/i]];
+    for(var t=0;t<tipos.length;t++){ if(tipos[t][1].test(txt)){ setSelect('f-tipo',tipos[t][0]); got.push('tipo'); break; } }
+
+    // Título: primera línea con contenido del texto original
+    var lineas = raw.split('\n').map(function(s){return s.trim();}).filter(Boolean);
+    if(lineas.length && !g('titulo')){
+      var tit = lineas[0].length>70 ? lineas[0].slice(0,68)+'…' : lineas[0];
+      document.getElementById('f-titulo').value = tit; got.push('título');
+    }
+
+    // Descripción: bloque de texto más largo (el párrafo descriptivo)
+    var parrafo = lineas.slice(1).sort(function(a,b){return b.length-a.length;})[0] || '';
+    if(parrafo.length>60 && !g('desc')){ document.getElementById('f-desc').value = parrafo; got.push('descripción'); }
+
+    if(got.length){ msg.className='import-msg ok'; msg.textContent='✓ Rellené: '+got.join(', ')+'. Revisa y ajusta lo que falte, y sube las fotos.'; }
+    else { msg.className='import-msg warn'; msg.textContent='No pude detectar datos claros. Rellena a mano o prueba a copiar más texto del anuncio.'; }
+  }
+  function setSelect(id,val){ var s=document.getElementById(id); for(var i=0;i<s.options.length;i++){ if(s.options[i].value===val||s.options[i].text===val){ s.selectedIndex=i; return; } } }
   function guardar(){
     if(!g('titulo')||!g('precio')){alert('Pon al menos un título y un precio.');return;}
     const l=smGetPropiedades();
