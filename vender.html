@@ -18,7 +18,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css?v=11">
+<link rel="stylesheet" href="assets/styles.css?v=12">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"Service","serviceType":"Venta y valoración de viviendas",
  "provider":{"@type":"RealEstateAgent","name":"Inmobiliaria Sierra Madrid","telephone":"+34674130818","areaServed":"Sierra de Madrid"},
@@ -201,8 +201,8 @@
   <div class="foot-bot">© <span data-anio>2026</span> Inmobiliaria Sierra Madrid · RE/MAX · <a href="aviso-legal.html">Aviso legal</a> · <a href="privacidad.html">Privacidad</a> · <a href="admin.html">Acceso gestor</a></div>
 </div></footer>
 
-<script src="data.js?v=11"></script>
-<script src="assets/site.js?v=11"></script>
+<script src="data.js?v=12"></script>
+<script src="assets/site.js?v=12"></script>
 <script>
   // Carrusel de casas vendidas (se muestra solo si hay alguna marcada como "vendida")
   (function(){
@@ -212,6 +212,11 @@
     var cont = document.getElementById('vendidas-carrusel');
     if(!vendidas.length){ return; }  // sin vendidas: la sección queda oculta
     function card(p){
+      var specs = [];
+      if(p.habitaciones) specs.push(p.habitaciones + ' dorm.');
+      if(p.banos) specs.push(p.banos + ' baños');
+      if(p.metros) specs.push(p.metros + ' m²');
+      var precio = p.precio ? '<div class="vendida-precio">Vendida por ' + smPrecio(p.precio) + '</div>' : '';
       return '<div class="vendida-card">' +
         '<div class="vendida-img" style="background-image:url(\'' + (p.fotos[0]||'') + '\')">' +
           '<span class="vendida-sello">Vendida</span>' +
@@ -219,7 +224,8 @@
         '<div class="vendida-body">' +
           '<div class="z">' + p.zona + ' · ' + p.tipo + '</div>' +
           '<h3>' + p.titulo + '</h3>' +
-          '<div class="specs">' + p.habitaciones + ' dorm. · ' + p.banos + ' baños · ' + p.metros + ' m²</div>' +
+          '<div class="specs">' + specs.join(' · ') + '</div>' +
+          precio +
         '</div></div>';
     }
     var cards = vendidas.map(card).join('');

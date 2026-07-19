@@ -388,6 +388,7 @@ footer.site .remax-badge .rm-lema{color:var(--ink-soft)}
 .vendida-body .z{font-size:11px;letter-spacing:1.6px;text-transform:uppercase;color:var(--ink-soft);margin-bottom:8px}
 .vendida-body h3{font-size:19px;color:var(--ink);font-weight:500;margin-bottom:8px;line-height:1.25}
 .vendida-body .specs{font-size:13px;color:var(--ink-soft)}
+.vendida-precio{margin-top:14px;padding-top:14px;border-top:1px solid var(--linea);font-family:var(--serif,'Fraunces',serif);font-size:17px;color:var(--verde);font-weight:600}
 @media(max-width:640px){.vendida-card{width:270px}}
 @media (prefers-reduced-motion: reduce){.vendidas-carrusel{overflow-x:auto}.vendidas-track{animation:none}}
 .resena{width:360px;flex-shrink:0;background:#fff;border:1px solid var(--linea);padding:28px;display:flex;flex-direction:column;transition:border-color .3s}
