@@ -295,7 +295,7 @@ function smBlogPorSlug(slug){ return SM_BLOG.find(a => a.slug === slug); }
 /* --- Envío de formularios (Web3Forms) -------------------------------------
    Clave gratuita en https://web3forms.com (se pide con el email y llega al momento).
    Mientras ponga PENDIENTE, los formularios muestran el aviso con el WhatsApp. */
-const SM_FORMS_KEY = 'PENDIENTE';
+const SM_FORMS_KEY = '040c7bd4-ce87-43ed-8747-9ad13428171b';
 
 /* --- Datos de contacto (un único sitio para cambiarlos) ------------------- */
 const SM_CONTACTO = {
