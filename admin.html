@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gestor de propiedades — Inmobiliaria Sierra Madrid</title>
+<meta name="robots" content="noindex,nofollow">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{--bg:#DAD7CD;--card:#fff;--ink:#344E41;--soft:#588157;--linea:#C0C4B0;--verde:#3A5A40;--verde-2:#344E41;--clay:#588157;--rojo:#b5443a;--ok:#3f7d4f}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--ink);line-height:1.55}
+  h1,h2,h3{font-family:'Fraunces',serif;font-weight:600}
+  .top{background:var(--verde);color:#fff;padding:18px 0}
+  .wrap{max-width:1100px;margin:0 auto;padding:0 22px}
+  .top .wrap{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .top h1{font-size:20px;font-weight:600}
+  .top .top-links{display:flex;gap:18px;align-items:center}
+  .top a,.top button.link{color:#A3B18A;font-size:14px;text-decoration:none;background:none;border:none;cursor:pointer;font-family:inherit}
+  .top a:hover,.top button.link:hover{color:#fff}
+  main{padding:30px 0 60px}
+  .bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:22px;flex-wrap:wrap;gap:12px}
+  .bar h2{color:var(--verde);font-size:24px}
+  .stats{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:24px}
+  .stat{background:var(--card);border:1px solid var(--linea);border-radius:14px;padding:16px 22px;flex:1;min-width:130px}
+  .stat .n{font-family:'Fraunces';font-size:28px;font-weight:600;color:var(--verde)}
+  .stat .l{font-size:13px;color:var(--soft)}
+  .btn{background:var(--verde);color:#fff;border:none;padding:12px 22px;border-radius:100px;font-weight:600;cursor:pointer;font-size:14px;font-family:inherit;transition:.15s}
+  .btn:hover{background:var(--verde-2)}
+  .btn-sm{padding:7px 14px;font-size:13px;border-radius:8px}
+  .btn-clay{background:var(--clay)}.btn-clay:hover{background:#98593a}
+  .btn-ghost{background:transparent;border:1px solid var(--linea);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--clay)}
+  .btn-danger{background:transparent;border:1px solid var(--rojo);color:var(--rojo)}
+  .btn-danger:hover{background:var(--rojo);color:#fff}
+  table{width:100%;border-collapse:collapse;background:var(--card);border-radius:14px;overflow:hidden;box-shadow:0 4px 20px rgba(51,69,47,.06)}
+  th{background:#CFD2C0;text-align:left;padding:14px 16px;font-size:12px;text-transform:uppercase;letter-spacing:.5px;color:var(--soft)}
+  td{padding:14px 16px;border-top:1px solid var(--linea);font-size:14px;vertical-align:middle}
+  .th-img{width:64px;height:48px;border-radius:8px;object-fit:cover;background:#eee}
+  .pill{font-size:11px;font-weight:700;padding:4px 10px;border-radius:100px;display:inline-block}
+  .pill-on{background:#e3f0e6;color:var(--ok)}
+  .pill-off{background:#CFD2C0;color:var(--soft)}
+  .pill-sold{background:#f6e0dd;color:var(--rojo)}
+  .pill-dest{background:#f3e6d8;color:var(--clay)}
+  .acts{display:flex;gap:6px;flex-wrap:wrap}
+  .titcell strong{display:block}.titcell span{font-size:12px;color:var(--soft)}
+  .ov{display:none;position:fixed;inset:0;background:rgba(25,30,22,.65);z-index:50;overflow-y:auto;padding:24px}
+  .ov.open{display:flex;align-items:flex-start;justify-content:center}
+  .panel{background:#fff;border-radius:18px;max-width:640px;width:100%;margin:auto;padding:32px}
+  .panel h3{color:var(--verde);font-size:22px;margin-bottom:20px}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  label{display:block;font-size:13px;font-weight:600;color:var(--soft);margin:12px 0 5px}
+  input,select,textarea{width:100%;padding:11px;border:1px solid var(--linea);border-radius:10px;font-family:inherit;font-size:14px;background:var(--bg)}
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--clay)}
+  .checks{display:flex;gap:22px;margin:16px 0;flex-wrap:wrap}
+  .checks label{display:flex;align-items:center;gap:8px;margin:0;font-size:14px;color:var(--ink);cursor:pointer}
+  .checks input{width:auto}
+  .panel-acts{display:flex;gap:12px;justify-content:flex-end;margin-top:24px}
+  .hint{font-size:12px;color:var(--soft);margin-top:4px}
+  .thumbs{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .thumbs .tb{position:relative;width:74px;height:56px;border-radius:8px;overflow:hidden;border:1px solid var(--linea)}
+  .thumbs .tb img{width:100%;height:100%;object-fit:cover}
+  .thumbs .tb button{position:absolute;top:2px;right:2px;background:rgba(35,38,32,.75);color:#fff;border:none;width:18px;height:18px;border-radius:50%;font-size:12px;line-height:1;cursor:pointer}
+  /* LOGIN */
+  .login{position:fixed;inset:0;background:var(--verde);display:flex;align-items:center;justify-content:center;z-index:100;padding:24px}
+  .login-card{background:#fff;border-radius:20px;padding:40px;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.3);text-align:center}
+  .login-card .logo{font-family:'Fraunces';font-size:24px;color:var(--verde);font-weight:600;margin-bottom:6px}
+  .login-card .logo small{display:block;font-family:'Inter';font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--soft);font-weight:600;margin-top:4px}
+  .login-card h2{font-size:20px;color:var(--ink);margin:22px 0 6px;font-weight:600}
+  .login-card p{color:var(--soft);font-size:14px;margin-bottom:22px}
+  .login-card input{text-align:center;margin-bottom:12px}
+  .login-card .btn{width:100%;justify-content:center}
+  .login-err{color:var(--rojo);font-size:13px;font-weight:500;margin-bottom:12px;display:none}
+  @media(max-width:700px){.row{grid-template-columns:1fr}table{font-size:13px}.hide-sm{display:none}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login" id="login">
+  <div class="login-card">
+    <div class="logo">Inmobiliaria Sierra Madrid <small>Gestor de propiedades</small></div>
+    <h2>Acceso privado</h2>
+    <p>Introduce tu contraseña para gestionar las propiedades de la web.</p>
+    <div class="login-err" id="login-err">Contraseña incorrecta. Inténtalo de nuevo.</div>
+    <form onsubmit="return login(event)">
+      <input type="password" id="pass" placeholder="Contraseña" autocomplete="current-password" autofocus>
+      <button class="btn" type="submit">Entrar</button>
+    </form>
+  </div>
+</div>
+
+<!-- APP (oculta hasta login) -->
+<div id="app" style="display:none">
+  <div class="top"><div class="wrap">
+    <h1>Gestor de propiedades</h1>
+    <div class="top-links">
+      <a href="index.html" target="_blank">Ver la web ↗</a>
+      <button class="link" onclick="logout()">Cerrar sesión</button>
+    </div>
+  </div></div>
+
+  <main class="wrap">
+    <div class="stats" id="stats"></div>
+    <div class="bar">
+      <h2>Tus propiedades</h2>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn-ghost btn" onclick="if(confirm('¿Restablecer las propiedades de ejemplo? Se perderán tus cambios.')){smReset();pintar();}">Restablecer ejemplos</button>
+        <button class="btn" onclick="abrir()">+ Añadir propiedad</button>
+      </div>
+    </div>
+    <table>
+      <thead><tr><th></th><th>Propiedad</th><th class="hide-sm">Precio</th><th>Estado</th><th></th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+    <p class="hint" style="margin-top:16px">Los cambios se guardan en este navegador. Al desplegar la web con una base de datos real, este mismo panel se conecta a ella. Consulta <strong>README-fatima.md</strong> para saber cómo publicar.</p>
+  </main>
+</div>
+
+<!-- FORM -->
+<div class="ov" id="ov" onclick="if(event.target===this)cerrar()">
+  <div class="panel">
+    <h3 id="panel-tit">Añadir propiedad</h3>
+    <input type="hidden" id="f-id">
+    <label>Título</label>
+    <input id="f-titulo" placeholder="Ej. Chalet luminoso junto a la sierra">
+    <div class="row">
+      <div><label>Zona</label><input id="f-zona" placeholder="Collado Villalba"></div>
+      <div><label>Tipo</label><select id="f-tipo"><option>Piso</option><option>Chalet</option><option>Casa</option><option>Ático</option><option>Dúplex</option><option>Local</option><option>Terreno</option></select></div>
+    </div>
+    <div class="row">
+      <div><label>Operación</label><select id="f-op"><option value="venta">Venta</option><option value="alquiler">Alquiler</option></select></div>
+      <div><label>Precio (€)</label><input id="f-precio" type="number" placeholder="385000"></div>
+    </div>
+    <div class="row">
+      <div><label>Dormitorios</label><input id="f-hab" type="number" placeholder="4"></div>
+      <div><label>Baños</label><input id="f-ban" type="number" placeholder="3"></div>
+    </div>
+    <label>Metros construidos (m²)</label>
+    <input id="f-metros" type="number" placeholder="210">
+    <label>Descripción</label>
+    <textarea id="f-desc" rows="4" placeholder="Describe la vivienda: luz, distribución, zona, extras..."></textarea>
+
+    <label>Fotos</label>
+    <div class="thumbs" id="thumbs"></div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
+      <label class="btn btn-ghost btn-sm" style="margin:0;cursor:pointer;display:inline-flex;align-items:center;width:auto">
+        Subir desde el ordenador
+        <input type="file" accept="image/*" multiple onchange="subirFotos(this)" style="display:none">
+      </label>
+      <button class="btn btn-ghost btn-sm" type="button" onclick="anadirUrl()">Añadir por URL</button>
+    </div>
+    <div class="hint">Puedes subir fotos desde tu ordenador o pegar enlaces. Se guardan con la propiedad.</div>
+
+    <div class="checks">
+      <label><input type="checkbox" id="f-visible" checked> Visible en la web</label>
+      <label><input type="checkbox" id="f-dest"> Destacada (sale en la home)</label>
+      <label><input type="checkbox" id="f-vendido"> Vendida</label>
+    </div>
+    <div class="panel-acts">
+      <button class="btn btn-ghost" onclick="cerrar()">Cancelar</button>
+      <button class="btn" onclick="guardar()">Guardar</button>
+    </div>
+  </div>
+</div>
+
+<script src="data.js?v=11"></script>
+<script>
+  /* ---- LOGIN (protección sencilla del panel) --------------------------
+     Cambia esta contraseña por la tuya. En producción, con la web ya
+     desplegada y conectada a una base de datos, se sustituye por un login
+     real (usuario/contraseña o email mágico). Ver README-fatima.md. */
+  const ADMIN_PASS = 'sierra2026';
+  const SES_KEY = 'fatima_admin_ok';
+
+  function estaDentro(){ return sessionStorage.getItem(SES_KEY) === '1'; }
+  function mostrarApp(){
+    document.getElementById('login').style.display='none';
+    document.getElementById('app').style.display='block';
+    pintar();
+  }
+  function login(e){
+    e.preventDefault();
+    if(document.getElementById('pass').value === ADMIN_PASS){
+      sessionStorage.setItem(SES_KEY,'1');
+      mostrarApp();
+    } else {
+      document.getElementById('login-err').style.display='block';
+      document.getElementById('pass').value='';
+    }
+    return false;
+  }
+  function logout(){ sessionStorage.removeItem(SES_KEY); location.reload(); }
+  if(estaDentro()) mostrarApp();
+
+  /* ---- Estado del formulario de fotos ---------------------------------- */
+  let fotosActuales = [];
+
+  function pintarThumbs(){
+    document.getElementById('thumbs').innerHTML = fotosActuales.map(function(src,i){
+      return '<div class="tb"><img src="'+src+'" alt=""><button type="button" onclick="quitarFoto('+i+')">×</button></div>';
+    }).join('');
+  }
+  function quitarFoto(i){ fotosActuales.splice(i,1); pintarThumbs(); }
+  function anadirUrl(){
+    var u = prompt('Pega el enlace de la foto (https://...)');
+    if(u && u.trim()){ fotosActuales.push(u.trim()); pintarThumbs(); }
+  }
+  function subirFotos(input){
+    var files = Array.from(input.files||[]);
+    files.forEach(function(file){
+      var reader = new FileReader();
+      reader.onload = function(ev){ fotosActuales.push(ev.target.result); pintarThumbs(); };
+      reader.readAsDataURL(file);
+    });
+    input.value='';
+  }
+
+  /* ---- Tabla y estadísticas -------------------------------------------- */
+  function pintar(){
+    const lista=smGetPropiedades();
+    const vis=lista.filter(p=>p.visible).length, sold=lista.filter(p=>p.vendido).length, dest=lista.filter(p=>p.destacado).length;
+    document.getElementById('stats').innerHTML=`
+      <div class="stat"><div class="n">${lista.length}</div><div class="l">Propiedades totales</div></div>
+      <div class="stat"><div class="n">${vis}</div><div class="l">Visibles en la web</div></div>
+      <div class="stat"><div class="n">${dest}</div><div class="l">Destacadas</div></div>
+      <div class="stat"><div class="n">${sold}</div><div class="l">Vendidas</div></div>`;
+    document.getElementById('tbody').innerHTML=lista.map(p=>`
+      <tr>
+        <td><img class="th-img" src="${(p.fotos&&p.fotos[0])||''}" alt=""></td>
+        <td class="titcell"><strong>${p.titulo}</strong><span>${p.zona} · ${p.tipo} · ${p.habitaciones} dorm · ${p.metros} m²</span></td>
+        <td class="hide-sm">${smPrecio(p.precio)}</td>
+        <td>
+          ${p.visible?'<span class="pill pill-on">Visible</span>':'<span class="pill pill-off">Oculta</span>'}
+          ${p.destacado?' <span class="pill pill-dest">Destacada</span>':''}
+          ${p.vendido?' <span class="pill pill-sold">Vendida</span>':''}
+        </td>
+        <td><div class="acts">
+          <button class="btn btn-sm btn-ghost" onclick="toggle(${p.id})">${p.visible?'Ocultar':'Mostrar'}</button>
+          <button class="btn btn-sm btn-clay" onclick="abrir(${p.id})">Editar</button>
+          <button class="btn btn-sm btn-danger" onclick="borrar(${p.id})">Borrar</button>
+        </div></td>
+      </tr>`).join('');
+  }
+  function toggle(id){const l=smGetPropiedades();const p=l.find(x=>x.id===id);p.visible=!p.visible;smSetPropiedades(l);pintar();}
+  function borrar(id){if(!confirm('¿Borrar esta propiedad? No se puede deshacer.'))return;let l=smGetPropiedades().filter(x=>x.id!==id);smSetPropiedades(l);pintar();}
+
+  function abrir(id){
+    document.getElementById('ov').classList.add('open');
+    if(id){
+      const p=smGetPropiedades().find(x=>x.id===id);
+      document.getElementById('panel-tit').textContent='Editar propiedad';
+      f('id',p.id);f('titulo',p.titulo);f('zona',p.zona);f('tipo',p.tipo);f('op',p.operacion);
+      f('precio',p.precio);f('hab',p.habitaciones);f('ban',p.banos);f('metros',p.metros);f('desc',p.descripcion);
+      fotosActuales = (p.fotos||[]).slice();
+      document.getElementById('f-visible').checked=p.visible;
+      document.getElementById('f-dest').checked=p.destacado;
+      document.getElementById('f-vendido').checked=p.vendido;
+    }else{
+      document.getElementById('panel-tit').textContent='Añadir propiedad';
+      ['id','titulo','zona','precio','hab','ban','metros','desc'].forEach(k=>f(k,''));
+      document.getElementById('f-tipo').value='Piso';
+      document.getElementById('f-op').value='venta';
+      fotosActuales = [];
+      document.getElementById('f-visible').checked=true;
+      document.getElementById('f-dest').checked=false;
+      document.getElementById('f-vendido').checked=false;
+    }
+    pintarThumbs();
+  }
+  function cerrar(){document.getElementById('ov').classList.remove('open');}
+  function f(k,v){document.getElementById('f-'+k).value=v;}
+  function g(k){return document.getElementById('f-'+k).value;}
+  function guardar(){
+    if(!g('titulo')||!g('precio')){alert('Pon al menos un título y un precio.');return;}
+    const l=smGetPropiedades();
+    const obj={
+      titulo:g('titulo'),zona:g('zona'),tipo:g('tipo'),operacion:g('op'),
+      precio:+g('precio'),habitaciones:+g('hab')||0,banos:+g('ban')||0,metros:+g('metros')||0,
+      descripcion:g('desc'),
+      fotos: fotosActuales.length?fotosActuales.slice():['https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=80'],
+      visible:document.getElementById('f-visible').checked,
+      destacado:document.getElementById('f-dest').checked,
+      vendido:document.getElementById('f-vendido').checked
+    };
+    const id=g('id');
+    if(id){const i=l.findIndex(x=>x.id==id);obj.id=+id;l[i]=obj;}
+    else{obj.id=Date.now();l.push(obj);}
+    smSetPropiedades(l);cerrar();pintar();
+  }
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrar();});
+</script>
+</body>
+</html>

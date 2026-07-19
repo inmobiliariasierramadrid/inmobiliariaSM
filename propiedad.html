@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ficha de propiedad | Inmobiliaria Sierra Madrid</title>
+<meta name="description" content="Detalle de la vivienda: fotos, precio, metros, dormitorios, baños, descripción y ubicación. Solicita información sin compromiso a Fátima Rivas.">
+<meta name="robots" content="index,follow">
+<meta name="theme-color" content="#344E41">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css?v=11">
+<style>
+  .ficha{max-width:1000px;margin:0 auto;padding:36px 26px 40px}
+  .galeria{display:grid;grid-template-columns:2fr 1fr;gap:8px;border-radius:var(--radio);overflow:hidden;margin-bottom:30px}
+  .galeria .g-main{width:100%;height:440px;object-fit:cover;cursor:zoom-in}
+  .galeria .g-side{display:grid;grid-template-rows:1fr 1fr;gap:8px}
+  .galeria .g-side img{width:100%;height:216px;object-fit:cover;cursor:zoom-in}
+  .galeria.solo-una{grid-template-columns:1fr}
+  .galeria .g-side.uno{grid-template-rows:1fr}
+  .galeria .g-side.uno img{height:440px}
+  .ficha-cols{display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:start}
+  .ficha h1{font-size:clamp(28px,3.6vw,40px);color:var(--verde);margin:6px 0 8px}
+  .ficha-precio{font-family:'Fraunces';font-size:34px;font-weight:600;color:var(--clay-2);margin-bottom:24px}
+  .ficha-specs{display:flex;gap:34px;flex-wrap:wrap;padding:22px 0;border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);margin-bottom:26px}
+  .ficha-specs .n{font-size:26px;font-weight:600;color:var(--verde);font-family:'Fraunces'}
+  .ficha-specs .l{font-size:13px;color:var(--ink-soft)}
+  .ficha .desc{color:var(--ink-soft);font-size:17px;white-space:pre-line}
+  .ficha h2{font-size:22px;color:var(--verde);margin:34px 0 12px}
+  .ficha .mapa{margin-top:20px}
+  .aside{position:sticky;top:96px;background:#fff;border:1px solid var(--linea);padding:28px}
+  .aside h3{color:var(--verde);font-size:20px;margin-bottom:6px}
+  .aside .sub{color:var(--ink-soft);font-size:14px;margin-bottom:18px}
+  .aside .btn{width:100%;justify-content:center;margin-bottom:10px}
+  .aside .form-mini input,.aside .form-mini textarea{width:100%;padding:12px;border:1px solid var(--linea);border-radius:0;font-family:inherit;font-size:14px;background:var(--bg);margin-bottom:10px}
+  .aside .form-mini input:focus,.aside .form-mini textarea:focus{outline:none;border-color:var(--clay)}
+  .puntos{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:8px}
+  .puntos span{background:#fff;border:1px solid var(--linea);padding:9px 16px;font-size:12px;letter-spacing:.8px;text-transform:uppercase;font-weight:600;color:var(--verde)}
+  .relacionadas{margin-top:70px;padding-top:50px;border-top:1px solid var(--linea)}
+  .relacionadas .sec-head{margin-bottom:34px}
+  .ficha-cta{margin-top:60px;background:var(--verde);color:#f3efe6;border-radius:var(--radio);padding:48px 34px;text-align:center}
+  .ficha-cta h2{color:#fff;font-size:clamp(24px,3.2vw,34px);margin-bottom:12px}
+  .ficha-cta p{color:#d5ddcf;max-width:520px;margin:0 auto 24px}
+  .lightbox{display:none;position:fixed;inset:0;background:rgba(20,24,18,.92);z-index:200;align-items:center;justify-content:center;padding:24px;cursor:zoom-out}
+  .lightbox.open{display:flex}
+  .lightbox img{max-width:96%;max-height:92%}
+  @media(max-width:900px){.ficha-cols{grid-template-columns:1fr}.galeria{grid-template-columns:1fr}.galeria .g-side{grid-template-rows:none;grid-template-columns:1fr 1fr}.galeria .g-main{height:320px}.aside{position:static}}
+</style>
+</head>
+<body>
+
+<header class="site"><div class="wrap"><nav>
+  <a href="index.html" class="logo"><b>Inmobiliaria</b> <small>Sierra Madrid</small></a>
+  <div class="navlinks" id="navlinks">
+    <a href="comprar.html">Comprar</a>
+    <a href="zonas.html">Zonas</a>
+    <a href="vender.html">Vender</a>
+    <a href="sobre-mi.html">Sobre mí</a>
+    <a href="blog.html">Blog</a>
+    <a href="sobre-mi.html#contacto" class="btn" style="padding:10px 22px">Contactar</a>
+  </div>
+  <button class="menu-btn" onclick="smToggleMenu()" aria-label="Abrir menú">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#344E41" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+  </button>
+</nav></div></header>
+
+<div class="ficha" id="ficha">
+  <p class="muted">Cargando la propiedad…</p>
+</div>
+
+<form name="ficha-visita" method="POST" data-netlify="true" hidden>
+  <input type="hidden" name="form-name" value="ficha-visita"><input name="propiedad"><input name="nombre"><input name="telefono"><textarea name="mensaje"></textarea><input name="acepta-privacidad">
+</form>
+
+<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')"><img id="lb-img" src="" alt=""></div>
+
+<footer class="site"><div class="wrap">
+  <div class="foot-grid">
+    <div>
+      <div class="logo"><b>Inmobiliaria</b> <small>Sierra Madrid</small></div>
+      <p>Compra, venta y valoración de viviendas en Collado Villalba, Becerril de la Sierra y la Sierra de Madrid, con trato cercano y experto.</p>
+      <div class="remax-badge"><span class="rm-lema">Asesora asociada</span><img class="remax-img" src="assets/remax.svg" alt="RE/MAX" style="height:20px;width:auto"></div>
+    </div>
+    <div><h4>Secciones</h4>
+      <a href="comprar.html">Comprar</a><a href="zonas.html">Zonas</a><a href="vender.html">Vender</a><a href="sobre-mi.html">Sobre mí</a><a href="blog.html">Blog</a>
+    </div>
+    <div><h4>Zonas</h4>
+      <a href="casas-en-venta-collado-villalba.html">Casas en Collado Villalba</a>
+      <a href="casas-en-venta-becerril-de-la-sierra.html">Casas en Becerril</a>
+      <a href="casas-en-venta-los-negrales.html">Casas en Los Negrales</a>
+      <a href="zonas.html">Todas las zonas</a>
+      <a href="valoracion-vivienda-sierra-de-madrid.html">Valoración de vivienda</a>
+    </div>
+    <div><h4>Contacto</h4>
+      <a href="https://wa.me/34674130818">WhatsApp</a><a href="tel:+34674130818">+34 674 13 08 18</a><a href="sobre-mi.html#contacto">RE/MAX Ágora · Collado Villalba</a>
+    </div>
+  </div>
+  <div class="foot-bot">© <span data-anio>2026</span> Inmobiliaria Sierra Madrid · RE/MAX · <a href="aviso-legal.html">Aviso legal</a> · <a href="privacidad.html">Privacidad</a> · <a href="admin.html">Acceso gestor</a></div>
+</div></footer>
+
+<script src="data.js?v=11"></script>
+<script src="assets/site.js?v=11"></script>
+<script>
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  function abrirLb(src){ if(!src)return; document.getElementById('lb-img').src=src; document.getElementById('lightbox').classList.add('open'); }
+
+  (function(){
+    var id = new URLSearchParams(location.search).get('id');
+    var p = id ? smGetPorId(id) : null;
+    var cont = document.getElementById('ficha');
+    var ic = smIconos();
+
+    if (!p || !p.visible){
+      document.title = 'Propiedad no disponible | Inmobiliaria Sierra Madrid';
+      cont.innerHTML = '<div class="crumbs"><a href="index.html">Inicio</a> · <a href="comprar.html">Comprar</a> · Propiedad</div>' +
+        '<div class="vacio" style="max-width:640px;margin:30px auto">' +
+        '<h2 style="color:var(--verde);margin-bottom:10px">Esta propiedad ya no está disponible</h2>' +
+        '<p style="margin-bottom:22px">Puede que se haya vendido o retirado. Mira el resto de casas o cuéntame qué buscas.</p>' +
+        '<a href="comprar.html" class="btn">Ver casas en venta</a></div>';
+      return;
+    }
+
+    document.title = p.titulo + ' · ' + p.zona + ' | Inmobiliaria Sierra Madrid';
+    var metaDesc = document.querySelector('meta[name=description]');
+    if (metaDesc) metaDesc.setAttribute('content', p.tipo + ' en ' + p.zona + ', ' + p.habitaciones + ' dormitorios, ' + p.banos + ' baños, ' + p.metros + ' m². ' + (p.descripcion||'').slice(0,120));
+
+    var fotos = (p.fotos && p.fotos.length) ? p.fotos : ['https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=80'];
+    var lados = fotos.slice(1, 3); // solo fotos distintas, sin repetir la principal
+    var mapQuery = encodeURIComponent(p.zona + ', Madrid, España');
+
+    cont.innerHTML =
+      '<div class="crumbs"><a href="index.html">Inicio</a> · <a href="comprar.html">Comprar</a> · ' + esc(p.zona) + '</div>' +
+      '<div class="galeria' + (lados.length ? '' : ' solo-una') + '">' +
+        '<img class="g-main" src="' + esc(fotos[0]) + '" alt="' + esc(p.titulo) + '" onclick="abrirLb(this.src)">' +
+        (lados.length ? '<div class="g-side' + (lados.length === 1 ? ' uno' : '') + '">' + lados.map(function(f){ return '<img src="' + esc(f) + '" alt="" onclick="abrirLb(this.src)">'; }).join('') + '</div>' : '') +
+      '</div>' +
+      '<div class="ficha-cols">' +
+        '<div>' +
+          '<div class="card-zona">' + ic.pin + ' ' + esc(p.zona) + ' · ' + esc(p.tipo) + ' · ' + (p.operacion==='alquiler'?'Alquiler':'Venta') + (p.vendido?' · <strong style="color:var(--rojo)">Vendida</strong>':'') + '</div>' +
+          '<h1>' + esc(p.titulo) + '</h1>' +
+          '<div class="ficha-precio">' + smPrecio(p.precio) + (p.operacion==='alquiler'?' /mes':'') + '</div>' +
+          '<div class="ficha-specs">' +
+            '<div><div class="n">' + p.habitaciones + '</div><div class="l">Dormitorios</div></div>' +
+            '<div><div class="n">' + p.banos + '</div><div class="l">Baños</div></div>' +
+            '<div><div class="n">' + p.metros + '</div><div class="l">m² construidos</div></div>' +
+            '<div><div class="n">' + esc(p.tipo) + '</div><div class="l">Tipo</div></div>' +
+          '</div>' +
+          '<h2>Descripción</h2>' +
+          '<p class="desc">' + esc(p.descripcion || '') + '</p>' +
+          '<h2>Lo esencial de un vistazo</h2>' +
+          '<div class="puntos">' +
+            '<span>' + esc(p.tipo) + ' en ' + esc(p.zona) + '</span>' +
+            '<span>' + p.metros + ' m² construidos</span>' +
+            '<span>' + p.habitaciones + ' dormitorios · ' + p.banos + ' baños</span>' +
+            '<span>' + (p.operacion==='alquiler' ? 'En alquiler' : 'En venta') + '</span>' +
+            (p.destacado ? '<span>Selección destacada</span>' : '') +
+          '</div>' +
+          '<h2>Ubicación</h2>' +
+          '<p class="muted" style="margin-bottom:6px">Zona de ' + esc(p.zona) + '. Te enseño la ubicación exacta en la visita.</p>' +
+          '<iframe class="mapa" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="Mapa de ' + esc(p.zona) + '" src="https://www.google.com/maps?q=' + mapQuery + '&output=embed"></iframe>' +
+        '</div>' +
+        '<aside class="aside">' +
+          '<h3>¿Te interesa esta casa?</h3>' +
+          '<p class="sub">Te la enseño yo. Pídeme información o una visita sin compromiso.</p>' +
+          '<a href="https://wa.me/34674130818?text=' + encodeURIComponent('Hola Fátima, me interesa: ' + p.titulo + ' (' + p.zona + ')') + '" class="btn btn-clay">Preguntar por WhatsApp</a>' +
+          '<a href="tel:+34674130818" class="btn btn-line">Llamar a Fátima</a>' +
+          '<div class="aside-remax"><img src="assets/remax.svg" alt="RE/MAX"><span>Agente asociada RE/MAX</span></div>' +
+          '<form class="form-mini" name="ficha-visita" method="POST" data-netlify="true" onsubmit="return smEnviar(event,\'ok-ficha\')" style="margin-top:16px">' +
+            '<input type="hidden" name="form-name" value="ficha-visita">' +
+            '<input type="hidden" name="propiedad" value="' + esc(p.titulo) + ' (' + esc(p.zona) + ')">' +
+            '<input required name="nombre" placeholder="Tu nombre">' +
+            '<input required name="telefono" type="tel" placeholder="Tu teléfono">' +
+            '<textarea rows="3" name="mensaje" placeholder="¿Cuándo te viene bien verla?"></textarea>' +
+            '<label class="consent" style="margin:4px 0 10px"><input type="checkbox" required name="acepta-privacidad" value="si"> Acepto la <a href="privacidad.html" target="_blank">política de privacidad</a></label>' +
+            '<button class="btn" type="submit" style="width:100%;justify-content:center">Solicitar información</button>' +
+            '<div class="form-ok" id="ok-ficha">¡Gracias! Te escribo enseguida para organizar la visita.</div>' +
+          '</form>' +
+        '</aside>' +
+      '</div>' +
+      // --- Landing: otras casas que pueden encajar -------------------------
+      (function(){
+        var otras = smGetPublicas().filter(function(x){ return String(x.id) !== String(p.id); });
+        otras.sort(function(a,b){ return (b.zona===p.zona) - (a.zona===p.zona) || (b.destacado?1:0) - (a.destacado?1:0); });
+        otras = otras.slice(0,3);
+        if (!otras.length) return '';
+        return '<div class="relacionadas">' +
+          '<div class="sec-head"><span class="eyebrow">Sigue mirando</span><h2>Otras casas que te pueden encajar</h2></div>' +
+          '<div class="grid">' + otras.map(smCardHTML).join('') + '</div></div>';
+      })() +
+      // --- Landing: banda CTA final ---------------------------------------
+      '<div class="ficha-cta">' +
+        '<h2>¿Quieres verla antes de que vuele?</h2>' +
+        '<p>Las casas bien de precio en ' + esc(p.zona) + ' no duran. Escríbeme hoy y organizamos la visita esta misma semana.</p>' +
+        '<div class="cta-row" style="justify-content:center">' +
+          '<a href="https://wa.me/34674130818?text=' + encodeURIComponent('Hola Fátima, quiero visitar: ' + p.titulo) + '" class="btn btn-clay">Pedir visita por WhatsApp</a>' +
+          '<a href="tel:+34674130818" class="btn btn-line" style="border-color:#e6cfa6;color:#f3efe6">Llamar ahora</a>' +
+        '</div>' +
+      '</div>';
+
+    // Datos estructurados de la vivienda
+    var ld = {
+      "@context":"https://schema.org","@type":"Residence",
+      "name":p.titulo,"description":p.descripcion,
+      "numberOfRooms":p.habitaciones,
+      "floorSize":{"@type":"QuantitativeValue","value":p.metros,"unitCode":"MTK"},
+      "address":{"@type":"PostalAddress","addressLocality":p.zona,"addressRegion":"Madrid","addressCountry":"ES"},
+      "image":fotos,
+      "offers":{"@type":"Offer","price":p.precio,"priceCurrency":"EUR","availability": p.vendido ? "https://schema.org/SoldOut" : "https://schema.org/InStock"}
+    };
+    var s = document.createElement('script'); s.type='application/ld+json'; s.textContent = JSON.stringify(ld); document.head.appendChild(s);
+
+    // Barra fija de contacto en movil (la mayoria mira las casas desde el telefono)
+    var barraVieja = document.querySelector('.barra-movil'); if (barraVieja) barraVieja.remove();
+    var barra = document.createElement('div');
+    barra.className = 'barra-movil';
+    barra.innerHTML =
+      '<a href="https://wa.me/34674130818?text=' + encodeURIComponent('Hola, me interesa: ' + p.titulo + ' (' + p.zona + ')') + '" class="btn btn-clay">WhatsApp</a>' +
+      '<a href="tel:+34674130818" class="btn">Llamar</a>';
+    document.body.appendChild(barra);
+    document.body.classList.add('con-barra');
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Casas en venta en la Sierra de Madrid | Inmobiliaria Sierra Madrid</title>
+<meta name="description" content="Pisos, chalets y casas en venta en Collado Villalba, Becerril de la Sierra y Los Negrales. Filtra por zona, tipo, precio y dormitorios y pide información sin compromiso.">
+<link rel="canonical" href="https://www.inmobiliariasierramadrid.com/comprar.html">
+<meta name="theme-color" content="#344E41">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Casas en venta en la Sierra de Madrid | Inmobiliaria Sierra Madrid">
+<meta property="og:description" content="Pisos, chalets y casas en venta en Collado Villalba, Becerril y Los Negrales. Filtra y pide información sin compromiso.">
+<meta property="og:url" content="https://www.inmobiliariasierramadrid.com/comprar.html">
+<meta property="og:image" content="https://images.unsplash.com/photo-1760878816701-cbdec5a74ad0?w=1200&q=80">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/styles.css?v=11">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+ {"@type":"ListItem","position":1,"name":"Inicio","item":"https://www.inmobiliariasierramadrid.com/"},
+ {"@type":"ListItem","position":2,"name":"Comprar","item":"https://www.inmobiliariasierramadrid.com/comprar.html"}]}
+</script>
+<style>
+  /* Filtros compactos: una barra discreta, las casas son las protagonistas */
+  .filtros-mini{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:14px}
+  .filtros-mini .f-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--ink-soft);margin-right:4px}
+  .filtros-mini select{padding:8px 30px 8px 14px;border:1px solid var(--linea);border-radius:0;font-family:inherit;font-size:12px;letter-spacing:.5px;text-transform:uppercase;font-weight:500;background:#fff;color:var(--ink);cursor:pointer;appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23588157' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+  .filtros-mini select:hover{border-color:var(--clay)}
+  .filtros-mini select:focus{outline:none;border-color:var(--clay)}
+  .filtros-mini select.filtrado{background-color:var(--verde);color:#fff;border-color:var(--verde)}
+  .resumen-res{color:var(--ink-soft);font-size:13px;margin-bottom:24px}
+  /* movil: filtros en una sola fila deslizable, como en las apps inmobiliarias */
+  @media(max-width:640px){
+    .filtros-mini{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-right:-26px;padding-right:26px;padding-bottom:6px}
+    .filtros-mini::-webkit-scrollbar{display:none}
+    .filtros-mini select{flex-shrink:0}
+    .filtros-mini .f-label{display:none}
+  }
+  .limpiar{background:none;border:none;color:var(--clay-2);font-weight:600;cursor:pointer;font-size:13px;font-family:inherit;padding:0}
+  .limpiar:hover{text-decoration:underline}
+</style>
+</head>
+<body>
+
+<header class="site"><div class="wrap"><nav>
+  <a href="index.html" class="logo"><b>Inmobiliaria</b> <small>Sierra Madrid</small></a>
+  <div class="navlinks" id="navlinks">
+    <a href="comprar.html" class="activo">Comprar</a>
+    <a href="zonas.html">Zonas</a>
+    <a href="vender.html">Vender</a>
+    <a href="sobre-mi.html">Sobre mí</a>
+    <a href="blog.html">Blog</a>
+    <a href="sobre-mi.html#contacto" class="btn" style="padding:10px 22px">Contactar</a>
+  </div>
+  <button class="menu-btn" onclick="smToggleMenu()" aria-label="Abrir menú">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#344E41" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+  </button>
+</nav></div></header>
+
+<div class="page-head page-head-foto"><div class="ph-media" style="background-image:url('https://images.unsplash.com/photo-1760878816701-cbdec5a74ad0?w=1600&q=70')"></div><div class="wrap">
+  <div class="crumbs"><a href="index.html">Inicio</a> · Comprar</div>
+  <span class="eyebrow">Casas en venta</span>
+  <h1>Encuentra tu casa en la Sierra de Madrid</h1>
+  <p>Pisos, chalets y casas en Collado Villalba, Becerril de la Sierra y los pueblos de alrededor. Filtra por lo que te importa y pídeme información: te respondo yo.</p>
+</div></div>
+
+<section style="padding-top:40px">
+  <div class="wrap">
+    <div class="filtros-mini">
+      <span class="f-label">Filtrar</span>
+      <select id="f-op" onchange="aplicar()" aria-label="Operación">
+        <option value="">Venta y alquiler</option>
+        <option value="venta">Venta</option>
+        <option value="alquiler">Alquiler</option>
+      </select>
+      <select id="f-tipo" onchange="aplicar()" aria-label="Tipo de vivienda"><option value="">Todos los tipos</option></select>
+      <select id="f-zona" onchange="aplicar()" aria-label="Zona"><option value="">Todas las zonas</option></select>
+      <select id="f-precio" onchange="aplicar()" aria-label="Precio máximo">
+        <option value="">Cualquier precio</option>
+        <option value="200000">Hasta 200.000 €</option>
+        <option value="300000">Hasta 300.000 €</option>
+        <option value="400000">Hasta 400.000 €</option>
+        <option value="500000">Hasta 500.000 €</option>
+        <option value="700000">Hasta 700.000 €</option>
+      </select>
+      <select id="f-hab" onchange="aplicar()" aria-label="Dormitorios">
+        <option value="">Dormitorios</option>
+        <option value="1">1 o más dorm.</option>
+        <option value="2">2 o más dorm.</option>
+        <option value="3">3 o más dorm.</option>
+        <option value="4">4 o más dorm.</option>
+      </select>
+    </div>
+    <div class="resumen-res"><span id="resumen"></span> · <button class="limpiar" onclick="limpiar()">Limpiar filtros</button></div>
+    <div class="grid" id="grid"></div>
+  </div>
+</section>
+
+<!-- CTA final -->
+<section class="cta-final">
+  <div class="wrap">
+    <h2>¿No ves lo que buscas todavía?</h2>
+    <p>Muchas casas se venden antes de llegar a los portales. Cuéntame qué necesitas y te aviso en cuanto entre algo que encaje contigo.</p>
+    <div class="cta-row">
+      <a href="sobre-mi.html#contacto" class="btn btn-clay">Contarme qué busco</a>
+      <a href="https://wa.me/34674130818" class="btn btn-line" style="border-color:#e6cfa6;color:#f3efe6">WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site"><div class="wrap">
+  <div class="foot-grid">
+    <div>
+      <div class="logo"><b>Inmobiliaria</b> <small>Sierra Madrid</small></div>
+      <p>Compra, venta y valoración de viviendas en Collado Villalba, Becerril de la Sierra y la Sierra de Madrid, con trato cercano y experto.</p>
+      <div class="remax-badge"><span class="rm-lema">Asesora asociada</span><img class="remax-img" src="assets/remax.svg" alt="RE/MAX" style="height:20px;width:auto"></div>
+    </div>
+    <div><h4>Secciones</h4>
+      <a href="comprar.html">Comprar</a><a href="zonas.html">Zonas</a><a href="vender.html">Vender</a><a href="sobre-mi.html">Sobre mí</a><a href="blog.html">Blog</a>
+    </div>
+    <div><h4>Zonas</h4>
+      <a href="casas-en-venta-collado-villalba.html">Casas en Collado Villalba</a>
+      <a href="casas-en-venta-becerril-de-la-sierra.html">Casas en Becerril</a>
+      <a href="casas-en-venta-los-negrales.html">Casas en Los Negrales</a>
+      <a href="zonas.html">Todas las zonas</a>
+      <a href="valoracion-vivienda-sierra-de-madrid.html">Valoración de vivienda</a>
+    </div>
+    <div><h4>Contacto</h4>
+      <a href="https://wa.me/34674130818">WhatsApp</a><a href="tel:+34674130818">+34 674 13 08 18</a><a href="sobre-mi.html#contacto">RE/MAX Ágora · Collado Villalba</a>
+    </div>
+  </div>
+  <div class="foot-bot">© <span data-anio>2026</span> Inmobiliaria Sierra Madrid · RE/MAX · <a href="aviso-legal.html">Aviso legal</a> · <a href="privacidad.html">Privacidad</a> · <a href="admin.html">Acceso gestor</a></div>
+</div></footer>
+
+<script src="data.js?v=11"></script>
+<script src="assets/site.js?v=11"></script>
+<script>
+  // Poblar selects dinámicos de tipo y zona
+  (function(){
+    var pubs = smGetPublicas();
+    var tipos = [...new Set(pubs.map(function(p){return p.tipo;}))].sort();
+    var zonas = [...new Set(pubs.map(function(p){return p.zona;}))].sort();
+    document.getElementById('f-tipo').insertAdjacentHTML('beforeend', tipos.map(function(t){return '<option value="'+t+'">'+t+'</option>';}).join(''));
+    document.getElementById('f-zona').insertAdjacentHTML('beforeend', zonas.map(function(z){return '<option value="'+z+'">'+z+'</option>';}).join(''));
+  })();
+
+  // Preseleccionar zona si viene por URL (?zona=Becerril de la Sierra)
+  (function(){
+    var params = new URLSearchParams(location.search);
+    var z = params.get('zona');
+    if (z){ var sel = document.getElementById('f-zona'); if ([...sel.options].some(function(o){return o.value===z;})) sel.value = z; }
+    var op = params.get('op'); if (op) document.getElementById('f-op').value = op;
+  })();
+
+  function aplicar(){
+    var op = document.getElementById('f-op').value;
+    var tipo = document.getElementById('f-tipo').value;
+    var zona = document.getElementById('f-zona').value;
+    var precio = +document.getElementById('f-precio').value || Infinity;
+    var hab = +document.getElementById('f-hab').value || 0;
+    var lista = smGetPublicas().filter(function(p){
+      return (!op || p.operacion===op)
+        && (!tipo || p.tipo===tipo)
+        && (!zona || p.zona===zona)
+        && (p.precio<=precio)
+        && (p.habitaciones>=hab);
+    });
+    document.getElementById('resumen').textContent = lista.length + (lista.length===1?' propiedad encontrada':' propiedades encontradas');
+    ['f-op','f-tipo','f-zona','f-precio','f-hab'].forEach(function(id){
+      var s = document.getElementById(id); s.classList.toggle('filtrado', !!s.value);
+    });
+    smRenderGrid(document.getElementById('grid'), lista, 'No hay propiedades con esos filtros. Prueba a ampliar el precio o la zona, o escríbeme y te aviso cuando entre algo así.');
+  }
+  function limpiar(){
+    ['f-op','f-tipo','f-zona','f-precio','f-hab'].forEach(function(id){document.getElementById(id).value='';});
+    aplicar();
+  }
+  aplicar();
+</script>
+</body>
+</html>
