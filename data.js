@@ -43,7 +43,7 @@ const SM_SEED = [
     banos: 1,
     metros: 90,
     descripcion: 'Nueva captación. Vivienda de 90 m² útiles (128 construidos) totalmente reformada, en la calle principal de Navalquejido, Los Arroyos (El Escorial). Reforma integral de alta calidad: pintura lisa, suelos laminados, carpintería interior moderna y cocina y baño rehechos por completo. Ventanas de PVC oscilobatientes con gran aislamiento térmico y acústico, además de mejoras de aislamiento en paredes y tejado. Salón-comedor con chimenea de casete y bomba de aire frío-calor, orientación oeste y salida directa a la terraza. Cocina ampliada al incorporar la terraza-tendedero, con zona de office. Tres dormitorios amplios con armarios empotrados y baño completo reformado con ventana exterior a zonas ajardinadas. Incluye trastero privado de 5 m² y plaza de garaje en el propio edificio. A escasos metros del Mercadona y a menos de 500 m de la estación de Cercanías de Las Zorreras.',
-    fotos: ['assets/img/propiedades/02-piso-los-arroyos-el-escorial-1.jpg', 'assets/img/propiedades/02-piso-los-arroyos-el-escorial-2.jpg', 'assets/img/propiedades/02-piso-los-arroyos-el-escorial-3.jpg', 'assets/img/propiedades/02-piso-los-arroyos-el-escorial-4.jpg', 'assets/img/propiedades/02-piso-los-arroyos-el-escorial-plano.jpg'],
+    fotos: ['assets/img/propiedades/02-piso-los-arroyos-el-escorial-1.jpg', 'assets/img/propiedades/02-piso-los-arroyos-el-escorial-2.jpg', 'assets/img/propiedades/02-piso-los-arroyos-el-escorial-plano.jpg'],
     destacado: true, vendido: false, visible: true
   },
   {
@@ -57,7 +57,7 @@ const SM_SEED = [
     banos: 2,
     metros: 98,
     descripcion: 'Nueva captación. Vivienda de 98 m² útiles (117 construidos) en la urbanización Cerro Grande de Becerril de la Sierra, con vistas únicas a Guadarrama, Collado Mediano, Navacerrada, el Cerro del Castillo, el Monte del Telégrafo, la Bola del Mundo, La Maliciosa y Siete Picos. Desde la terraza de 18 m², conectada con el salón (20 m²) y el dormitorio principal, se disfruta de todo el horizonte de la sierra. Tres dormitorios con armarios empotrados, dos baños completos (uno de ellos en suite), cocina amplia con terraza-tendedero incorporada y salón con chimenea. Urbanización tranquila y bien comunicada, a 2 km del casco urbano, con piscina de 25 metros y piscina infantil, cafetería, zonas ajardinadas, campo multideportivo de baloncesto y futbito, pistas de tenis y pádel y parques infantiles. A 130 metros del autobús 691 a Moncloa y a los hospitales de Villalba y El Escorial.',
-    fotos: ['assets/img/propiedades/03-piso-cerro-grande-becerril-1.jpg', 'assets/img/propiedades/03-piso-cerro-grande-becerril-2.jpg', 'assets/img/propiedades/03-piso-cerro-grande-becerril-3.jpg', 'assets/img/propiedades/03-piso-cerro-grande-becerril-4.jpg', 'assets/img/propiedades/03-piso-cerro-grande-becerril-plano.jpg'],
+    fotos: ['assets/img/propiedades/03-piso-cerro-grande-becerril-1.jpg', 'assets/img/propiedades/03-piso-cerro-grande-becerril-2.jpg', 'assets/img/propiedades/03-piso-cerro-grande-becerril-plano.jpg'],
     destacado: true, vendido: false, visible: true
   },
   {

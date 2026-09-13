@@ -13,16 +13,28 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/styles.css?v=13">
+<link rel="stylesheet" href="assets/styles.css?v=14">
 <style>
   .ficha{max-width:1000px;margin:0 auto;padding:36px 26px 40px}
-  .galeria{display:grid;grid-template-columns:2fr 1fr;gap:8px;border-radius:var(--radio);overflow:hidden;margin-bottom:30px}
-  .galeria .g-main{width:100%;height:440px;object-fit:cover;cursor:zoom-in}
-  .galeria .g-side{display:grid;grid-template-rows:1fr 1fr;gap:8px}
-  .galeria .g-side img{width:100%;height:216px;object-fit:cover;cursor:zoom-in}
-  .galeria.solo-una{grid-template-columns:1fr}
-  .galeria .g-side.uno{grid-template-rows:1fr}
-  .galeria .g-side.uno img{height:440px}
+  /* --- Carrusel de fotos --- */
+  .carrusel{position:relative;overflow:hidden;background:var(--verde-2);margin-bottom:10px;touch-action:pan-y}
+  .carrusel .pista{display:flex;transition:transform .45s cubic-bezier(.22,.61,.36,1);will-change:transform}
+  .carrusel .pista img{flex:0 0 100%;width:100%;height:480px;object-fit:cover;display:block;cursor:zoom-in;user-select:none;-webkit-user-drag:none}
+  .carrusel .pista img.plano{object-fit:contain;background:#fff}
+  .car-nav{position:absolute;top:50%;transform:translateY(-50%);width:48px;height:48px;border:0;background:rgba(255,255,255,.9);color:var(--verde);font-size:26px;line-height:1;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s,opacity .2s;padding:0}
+  .car-nav:hover{background:#fff}
+  .car-nav[disabled]{opacity:.3;cursor:default}
+  .car-nav.prev{left:14px}
+  .car-nav.next{right:14px}
+  .car-cont{position:absolute;right:14px;bottom:14px;background:rgba(20,24,18,.72);color:#fff;font-size:12px;letter-spacing:.6px;padding:6px 12px;pointer-events:none}
+  .miniaturas{display:flex;gap:8px;margin-bottom:30px;overflow-x:auto;scrollbar-width:thin;padding-bottom:4px}
+  .miniaturas button{flex:0 0 auto;padding:0;border:0;background:none;cursor:pointer;line-height:0}
+  .miniaturas img{width:108px;height:74px;object-fit:cover;display:block;opacity:.5;transition:opacity .2s}
+  .miniaturas img.plano{object-fit:contain;background:#fff}
+  .miniaturas button.activa img{opacity:1}
+  .miniaturas button.activa{outline:2px solid var(--clay);outline-offset:-2px}
+  .galeria-una{margin-bottom:30px}
+  .galeria-una img{width:100%;height:480px;object-fit:cover;display:block;cursor:zoom-in}
   .ficha-cols{display:grid;grid-template-columns:1.5fr 1fr;gap:40px;align-items:start}
   .ficha h1{font-size:clamp(28px,3.6vw,40px);color:var(--verde);margin:6px 0 8px}
   .ficha-precio{font-family:'Fraunces';font-size:34px;font-weight:600;color:var(--clay-2);margin-bottom:24px}
@@ -45,10 +57,17 @@
   .ficha-cta{margin-top:60px;background:var(--verde);color:#f3efe6;border-radius:var(--radio);padding:48px 34px;text-align:center}
   .ficha-cta h2{color:#fff;font-size:clamp(24px,3.2vw,34px);margin-bottom:12px}
   .ficha-cta p{color:#d5ddcf;max-width:520px;margin:0 auto 24px}
-  .lightbox{display:none;position:fixed;inset:0;background:rgba(20,24,18,.92);z-index:200;align-items:center;justify-content:center;padding:24px;cursor:zoom-out}
+  .lightbox{display:none;position:fixed;inset:0;background:rgba(20,24,18,.94);z-index:200;align-items:center;justify-content:center;padding:24px;touch-action:pan-y}
   .lightbox.open{display:flex}
-  .lightbox img{max-width:96%;max-height:92%}
-  @media(max-width:900px){.ficha-cols{grid-template-columns:1fr}.galeria{grid-template-columns:1fr}.galeria .g-side{grid-template-rows:none;grid-template-columns:1fr 1fr}.galeria .g-main{height:320px}.aside{position:static}}
+  .lightbox img{max-width:92%;max-height:88%;user-select:none;-webkit-user-drag:none}
+  .lb-btn{position:absolute;border:0;background:rgba(255,255,255,.14);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;padding:0}
+  .lb-btn:hover{background:rgba(255,255,255,.3)}
+  .lb-cerrar{top:20px;right:24px;width:44px;height:44px;font-size:26px;line-height:1}
+  .lb-nav{top:50%;transform:translateY(-50%);width:52px;height:52px;font-size:30px;line-height:1}
+  .lb-nav.prev{left:24px}
+  .lb-nav.next{right:24px}
+  .lb-cont{position:absolute;bottom:26px;left:50%;transform:translateX(-50%);color:#e6e2d6;font-size:13px;letter-spacing:.8px}
+  @media(max-width:900px){.ficha-cols{grid-template-columns:1fr}.carrusel .pista img{height:300px}.galeria-una img{height:300px}.car-nav{width:40px;height:40px;font-size:22px}.car-nav.prev{left:8px}.car-nav.next{right:8px}.miniaturas img{width:84px;height:58px}.lb-nav{width:42px;height:42px;font-size:24px}.lb-nav.prev{left:8px}.lb-nav.next{right:8px}.aside{position:static}}
 </style>
 </head>
 <body>
@@ -76,7 +95,7 @@
   <input type="hidden" name="form-name" value="ficha-visita"><input name="propiedad"><input name="nombre"><input name="telefono"><textarea name="mensaje"></textarea><input name="acepta-privacidad">
 </form>
 
-<div class="lightbox" id="lightbox" onclick="this.classList.remove('open')"><img id="lb-img" src="" alt=""></div>
+<div class="lightbox" id="lightbox"><button class="lb-btn lb-cerrar" id="lb-cerrar" aria-label="Cerrar">&times;</button><button class="lb-btn lb-nav prev" id="lb-prev" aria-label="Foto anterior">&#8249;</button><img id="lb-img" src="" alt=""><button class="lb-btn lb-nav next" id="lb-next" aria-label="Foto siguiente">&#8250;</button><div class="lb-cont" id="lb-cont"></div></div>
 
 <footer class="site"><div class="wrap">
   <div class="foot-grid">
@@ -102,11 +121,84 @@
   <div class="foot-bot">© <span data-anio>2026</span> Inmobiliaria Sierra Madrid · RE/MAX · <a href="aviso-legal.html">Aviso legal</a> · <a href="privacidad.html">Privacidad</a> · <a href="admin.html">Acceso gestor</a></div>
 </div></footer>
 
-<script src="data.js?v=13"></script>
-<script src="assets/site.js?v=13"></script>
+<script src="data.js?v=14"></script>
+<script src="assets/site.js?v=14"></script>
 <script>
   function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
-  function abrirLb(src){ if(!src)return; document.getElementById('lb-img').src=src; document.getElementById('lightbox').classList.add('open'); }
+  /* --- Carrusel: estado compartido por la ficha y el visor a pantalla completa --- */
+  var GAL = { fotos: [], i: 0, titulo: '' };
+  function esPlano(src){ return /plano/i.test(src || ''); }
+  function altFoto(i){
+    if (esPlano(GAL.fotos[i])) return 'Plano de distribución · ' + GAL.titulo;
+    return GAL.titulo + ' · foto ' + (i + 1) + ' de ' + GAL.fotos.length;
+  }
+  function irA(i){
+    if (!GAL.fotos.length) return;
+    GAL.i = Math.max(0, Math.min(i, GAL.fotos.length - 1));
+    var pista = document.getElementById('pista');
+    if (pista) pista.style.transform = 'translateX(-' + (GAL.i * 100) + '%)';
+    var cont = document.getElementById('car-cont');
+    if (cont) cont.textContent = (GAL.i + 1) + ' / ' + GAL.fotos.length;
+    var prev = document.getElementById('car-prev'), next = document.getElementById('car-next');
+    if (prev) prev.disabled = GAL.i === 0;
+    if (next) next.disabled = GAL.i === GAL.fotos.length - 1;
+    var minis = document.querySelectorAll('#miniaturas button');
+    for (var k = 0; k < minis.length; k++) minis[k].classList.toggle('activa', k === GAL.i);
+    if (minis[GAL.i] && minis[GAL.i].scrollIntoView) minis[GAL.i].scrollIntoView({block:'nearest', inline:'nearest', behavior:'smooth'});
+    if (document.getElementById('lightbox').classList.contains('open')) pintarLb();
+  }
+  function mover(d){ irA(GAL.i + d); }
+
+  /* --- Visor a pantalla completa --- */
+  function pintarLb(){
+    var img = document.getElementById('lb-img');
+    img.src = GAL.fotos[GAL.i];
+    img.alt = altFoto(GAL.i);
+    document.getElementById('lb-cont').textContent = (GAL.i + 1) + ' / ' + GAL.fotos.length;
+    var uno = GAL.fotos.length < 2;
+    document.getElementById('lb-prev').style.display = uno ? 'none' : '';
+    document.getElementById('lb-next').style.display = uno ? 'none' : '';
+    document.getElementById('lb-cont').style.display = uno ? 'none' : '';
+  }
+  function abrirLb(i){
+    if (!GAL.fotos.length) return;
+    if (typeof i === 'number') GAL.i = i;
+    pintarLb();
+    document.getElementById('lightbox').classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function cerrarLb(){
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  /* --- Deslizar con el dedo --- */
+  function gestos(el, alSoltar){
+    var x0 = null, y0 = null;
+    el.addEventListener('touchstart', function(e){ x0 = e.touches[0].clientX; y0 = e.touches[0].clientY; }, {passive:true});
+    el.addEventListener('touchend', function(e){
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0, dy = e.changedTouches[0].clientY - y0;
+      // solo cuenta si el gesto es claramente horizontal
+      if (Math.abs(dx) > 45 && Math.abs(dx) > Math.abs(dy)) alSoltar(dx < 0 ? 1 : -1);
+      x0 = y0 = null;
+    }, {passive:true});
+  }
+
+  document.addEventListener('DOMContentLoaded', function(){
+    var lb = document.getElementById('lightbox');
+    document.getElementById('lb-cerrar').onclick = cerrarLb;
+    document.getElementById('lb-prev').onclick = function(){ mover(-1); };
+    document.getElementById('lb-next').onclick = function(){ mover(1); };
+    lb.addEventListener('click', function(e){ if (e.target === lb) cerrarLb(); });
+    gestos(lb, mover);
+    document.addEventListener('keydown', function(e){
+      var abierto = lb.classList.contains('open');
+      if (e.key === 'Escape' && abierto) cerrarLb();
+      else if (e.key === 'ArrowLeft' && (abierto || GAL.fotos.length > 1)) mover(-1);
+      else if (e.key === 'ArrowRight' && (abierto || GAL.fotos.length > 1)) mover(1);
+    });
+  });
 
   (function(){
     var id = new URLSearchParams(location.search).get('id');
@@ -129,15 +221,31 @@
     if (metaDesc) metaDesc.setAttribute('content', p.tipo + ' en ' + p.zona + ', ' + p.habitaciones + ' dormitorios, ' + p.banos + ' baños, ' + p.metros + ' m². ' + (p.descripcion||'').slice(0,120));
 
     var fotos = (p.fotos && p.fotos.length) ? p.fotos : ['https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=1200&q=80'];
-    var lados = fotos.slice(1, 3); // solo fotos distintas, sin repetir la principal
+    GAL.fotos = fotos; GAL.i = 0; GAL.titulo = p.titulo;
     var mapQuery = encodeURIComponent(p.zona + ', Madrid, España');
 
     cont.innerHTML =
       '<div class="crumbs"><a href="index.html">Inicio</a> · <a href="comprar.html">Comprar</a> · ' + esc(p.zona) + '</div>' +
-      '<div class="galeria' + (lados.length ? '' : ' solo-una') + '">' +
-        '<img class="g-main" src="' + esc(fotos[0]) + '" alt="' + esc(p.titulo) + '" onclick="abrirLb(this.src)">' +
-        (lados.length ? '<div class="g-side' + (lados.length === 1 ? ' uno' : '') + '">' + lados.map(function(f){ return '<img src="' + esc(f) + '" alt="" onclick="abrirLb(this.src)">'; }).join('') + '</div>' : '') +
-      '</div>' +
+      (fotos.length > 1
+        ? '<div class="carrusel" id="carrusel">' +
+            '<div class="pista" id="pista">' +
+              fotos.map(function(f, i){
+                return '<img src="' + esc(f) + '"' + (esPlano(f) ? ' class="plano"' : '') +
+                       ' alt="' + esc(altFoto(i)) + '" loading="' + (i ? 'lazy' : 'eager') + '" onclick="abrirLb(' + i + ')">';
+              }).join('') +
+            '</div>' +
+            '<button class="car-nav prev" id="car-prev" aria-label="Foto anterior" onclick="mover(-1)">&#8249;</button>' +
+            '<button class="car-nav next" id="car-next" aria-label="Foto siguiente" onclick="mover(1)">&#8250;</button>' +
+            '<div class="car-cont" id="car-cont"></div>' +
+          '</div>' +
+          '<div class="miniaturas" id="miniaturas">' +
+            fotos.map(function(f, i){
+              return '<button type="button" aria-label="Ver foto ' + (i + 1) + '" onclick="irA(' + i + ')">' +
+                     '<img src="' + esc(f) + '"' + (esPlano(f) ? ' class="plano"' : '') + ' alt="" loading="lazy"></button>';
+            }).join('') +
+          '</div>'
+        : '<div class="galeria-una"><img src="' + esc(fotos[0]) + '" alt="' + esc(p.titulo) + '" onclick="abrirLb(0)"></div>'
+      ) +
       '<div class="ficha-cols">' +
         '<div>' +
           '<div class="card-zona">' + ic.pin + ' ' + esc(p.zona) + ' · ' + esc(p.tipo) + ' · ' + (p.operacion==='alquiler'?'Alquiler':'Venta') + (p.vendido?' · <strong style="color:var(--rojo)">Vendida</strong>':'') + '</div>' +
@@ -200,6 +308,9 @@
           '<a href="tel:+34674130818" class="btn btn-line" style="border-color:#e6cfa6;color:#f3efe6">Llamar ahora</a>' +
         '</div>' +
       '</div>';
+
+    // Arrancar el carrusel (posición inicial, contador y gesto de deslizar)
+    if (fotos.length > 1) { irA(0); gestos(document.getElementById('carrusel'), mover); }
 
     // Datos estructurados de la vivienda
     var ld = {
