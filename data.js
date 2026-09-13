@@ -8,16 +8,75 @@
    estático funciona perfectamente y no depende de ningún servidor.
    ========================================================================= */
 
-const SM_STORAGE_KEY = 'fatima_rivas_propiedades_v6';
+const SM_STORAGE_KEY = 'fatima_rivas_propiedades_v7';
 
 /* --- Propiedades reales (catálogo Inmobiliaria Sierra Madrid) --------------
-   Importadas de inmobiliariasierramadrid.com. Editables desde /admin.
-   Las fotos son de archivo coherentes con cada tipo/zona: se pueden sustituir
-   por las reales desde el gestor. Las vendidas salen en el carrusel de /vender. */
+   Importadas de inmobiliariasierramadrid.com el 13/09/2026: 21 viviendas
+   (8 en venta + 13 vendidas), con las fotos reales descargadas a
+   assets/img/propiedades/. Editables desde /admin.
+   Las vendidas salen en el carrusel de /vender. */
 const SM_SEED = [
   /* ===== EN VENTA ===== */
   {
     id: 1,
+    titulo: 'Adosado en Mataelpino',
+    zona: 'Mataelpino',
+    operacion: 'venta',
+    tipo: 'Adosado',
+    precio: 430000,
+    habitaciones: 4,
+    banos: 3,
+    metros: 188,
+    descripcion: 'Nueva captación. Adosado de 188 m² en Mataelpino, con cuatro dormitorios y tres baños. Vivienda amplia en pleno entorno natural de El Boalo · Cerceda · Mataelpino, a los pies de La Maliciosa. Escríbeme y concertamos una visita.',
+    fotos: ['assets/img/propiedades/01-adosado-mataelpino-1.jpg'],
+    idealista: 'https://www.idealista.com/inmueble/112384347/',
+    destacado: true, vendido: false, visible: true
+  },
+  {
+    id: 2,
+    titulo: 'Piso reformado en Los Arroyos, El Escorial',
+    zona: 'El Escorial',
+    operacion: 'venta',
+    tipo: 'Piso',
+    precio: 325000,
+    habitaciones: 3,
+    banos: 1,
+    metros: 90,
+    descripcion: 'Nueva captación. Vivienda de 90 m² útiles (128 construidos) totalmente reformada, en la calle principal de Navalquejido, Los Arroyos (El Escorial). Reforma integral de alta calidad: pintura lisa, suelos laminados, carpintería interior moderna y cocina y baño rehechos por completo. Ventanas de PVC oscilobatientes con gran aislamiento térmico y acústico, además de mejoras de aislamiento en paredes y tejado. Salón-comedor con chimenea de casete y bomba de aire frío-calor, orientación oeste y salida directa a la terraza. Cocina ampliada al incorporar la terraza-tendedero, con zona de office. Tres dormitorios amplios con armarios empotrados y baño completo reformado con ventana exterior a zonas ajardinadas. Incluye trastero privado de 5 m² y plaza de garaje en el propio edificio. A escasos metros del Mercadona y a menos de 500 m de la estación de Cercanías de Las Zorreras.',
+    fotos: ['assets/img/propiedades/02-piso-los-arroyos-el-escorial-1.jpg', 'assets/img/propiedades/02-piso-los-arroyos-el-escorial-2.jpg', 'assets/img/propiedades/02-piso-los-arroyos-el-escorial-3.jpg', 'assets/img/propiedades/02-piso-los-arroyos-el-escorial-4.jpg', 'assets/img/propiedades/02-piso-los-arroyos-el-escorial-plano.jpg'],
+    destacado: true, vendido: false, visible: true
+  },
+  {
+    id: 3,
+    titulo: 'Piso en Cerro Grande, Becerril de la Sierra',
+    zona: 'Becerril de la Sierra',
+    operacion: 'venta',
+    tipo: 'Piso',
+    precio: 360000,
+    habitaciones: 3,
+    banos: 2,
+    metros: 98,
+    descripcion: 'Nueva captación. Vivienda de 98 m² útiles (117 construidos) en la urbanización Cerro Grande de Becerril de la Sierra, con vistas únicas a Guadarrama, Collado Mediano, Navacerrada, el Cerro del Castillo, el Monte del Telégrafo, la Bola del Mundo, La Maliciosa y Siete Picos. Desde la terraza de 18 m², conectada con el salón (20 m²) y el dormitorio principal, se disfruta de todo el horizonte de la sierra. Tres dormitorios con armarios empotrados, dos baños completos (uno de ellos en suite), cocina amplia con terraza-tendedero incorporada y salón con chimenea. Urbanización tranquila y bien comunicada, a 2 km del casco urbano, con piscina de 25 metros y piscina infantil, cafetería, zonas ajardinadas, campo multideportivo de baloncesto y futbito, pistas de tenis y pádel y parques infantiles. A 130 metros del autobús 691 a Moncloa y a los hospitales de Villalba y El Escorial.',
+    fotos: ['assets/img/propiedades/03-piso-cerro-grande-becerril-1.jpg', 'assets/img/propiedades/03-piso-cerro-grande-becerril-2.jpg', 'assets/img/propiedades/03-piso-cerro-grande-becerril-3.jpg', 'assets/img/propiedades/03-piso-cerro-grande-becerril-4.jpg', 'assets/img/propiedades/03-piso-cerro-grande-becerril-plano.jpg'],
+    destacado: true, vendido: false, visible: true
+  },
+  {
+    id: 4,
+    titulo: 'Adosado en urbanización privada, Moralzarzal',
+    zona: 'Moralzarzal',
+    operacion: 'venta',
+    tipo: 'Adosado',
+    precio: 625000,
+    habitaciones: 3,
+    banos: 3,
+    metros: 163,
+    descripcion: 'Arras firmadas. Adosado de 163 m² en urbanización privada de Moralzarzal, con tres dormitorios, tres baños y calificación energética A. Escríbeme si quieres que te avise de viviendas similares en la zona.',
+    fotos: ['assets/img/propiedades/04-adosado-urb-privada-moralzarzal-1.jpg'],
+    idealista: 'https://www.idealista.com/inmueble/112026894/',
+    destacado: true, vendido: false, visible: true
+  },
+  {
+    id: 5,
     titulo: 'Unifamiliar en Los Ángeles de San Rafael',
     zona: 'San Rafael',
     operacion: 'venta',
@@ -27,12 +86,13 @@ const SM_SEED = [
     banos: 3,
     metros: 188,
     descripcion: 'Vivienda unifamiliar de 188 m² en la urbanización Los Ángeles de San Rafael, con cuatro dormitorios y tres baños. Entorno tranquilo de montaña, ideal como primera o segunda residencia.',
-    fotos: ['https://images.unsplash.com/photo-1760878816701-cbdec5a74ad0?w=1200&q=80', 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=80'],
-    destacado: true, vendido: false, visible: true
+    fotos: ['assets/img/propiedades/05-unifamiliar-los-angeles-san-rafael-1.jpg'],
+    idealista: 'https://www.idealista.com/inmueble/111383468/',
+    destacado: false, vendido: false, visible: true
   },
   {
-    id: 2,
-    titulo: 'Unifamiliar de lujo en La Serranilla, Guadarrama',
+    id: 6,
+    titulo: 'Villa de lujo en La Serranilla, Guadarrama',
     zona: 'Guadarrama',
     operacion: 'venta',
     tipo: 'Unifamiliar',
@@ -40,40 +100,27 @@ const SM_SEED = [
     habitaciones: 4,
     banos: 5,
     metros: 450,
-    descripcion: 'Amplia vivienda unifamiliar de 450 m² en la exclusiva urbanización La Serranilla, en Guadarrama. Cuatro dormitorios, cinco baños y acabados de alta gama en un entorno privilegiado de la sierra.',
-    fotos: ['https://framerusercontent.com/images/HJGkPu1Tn0p0X3zkwOXSLKiFXJA.jpg?width=1200', 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80'],
+    descripcion: 'Villa de lujo de 450 m² construidos sobre una parcela de 1.000 m², en la urbanización privada La Serranilla, entre Guadarrama y Los Molinos. Jardín consolidado con césped, riego automático y piscina independiente. Se distribuye en tres plantas: sótano con garaje para dos coches con punto de carga eléctrica, lavandería, trastero, sala de máquinas y dormitorio con baño; planta principal con amplio salón-comedor de grandes ventanales y chimenea, salida a terraza de 47 m² con vistas a la Sierra, cocina de diseño equipada con acceso a la piscina, aseo y dormitorio en suite; y planta superior con dos dormitorios, zona de despacho y dos baños completos. Destaca por su eficiencia energética: aerotermia, 16 placas solares (8,6 kWp), domótica en persianas e iluminación eficiente en toda la vivienda. Construida en 2008, con calificación energética A.',
+    fotos: ['assets/img/propiedades/06-unifamiliar-la-serranilla-guadarrama-1.jpg', 'assets/img/propiedades/06-unifamiliar-la-serranilla-guadarrama-2.jpg'],
     destacado: true, vendido: false, visible: true
   },
   {
-    id: 3,
-    titulo: 'Adosado en Cabo de Trafalgar, Boadilla del Monte',
-    zona: 'Boadilla del Monte',
-    operacion: 'venta',
-    tipo: 'Adosado',
-    precio: 1285000,
-    habitaciones: 5,
-    banos: 4,
-    metros: 271,
-    descripcion: 'Espectacular adosado de 271 m² en la zona de Cabo de Trafalgar, en Boadilla del Monte. Cinco dormitorios, cuatro baños y una distribución pensada para la vida en familia en una de las mejores zonas del noroeste.',
-    fotos: ['https://framerusercontent.com/images/dKbRFyaTriY51LKHWyoz27yIS7M.jpg?width=1200', 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=80'],
-    destacado: true, vendido: false, visible: true
-  },
-  {
-    id: 4,
-    titulo: 'Unifamiliar en urbanización privada, Becerril de la Sierra',
+    id: 7,
+    titulo: 'Casa de pueblo en el casco urbano de Becerril de la Sierra',
     zona: 'Becerril de la Sierra',
     operacion: 'venta',
-    tipo: 'Unifamiliar',
-    precio: 595000,
-    habitaciones: 5,
-    banos: 5,
-    metros: 326,
-    descripcion: 'Unifamiliar de 326 m² en urbanización privada de Becerril de la Sierra. Cinco dormitorios y cinco baños, con zonas comunes y todo el encanto de vivir en plena sierra a un paso de los servicios del pueblo.',
-    fotos: ['https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=1200&q=80', 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80'],
+    tipo: 'Casa de pueblo',
+    precio: 445900,
+    habitaciones: 1,
+    banos: 1,
+    metros: 54,
+    descripcion: 'Nueva captación. Casa de pueblo de 54 m² en pleno casco urbano de Becerril de la Sierra, con un dormitorio y un baño. Todo el encanto de la construcción tradicional serrana a un paso de los servicios del pueblo.',
+    fotos: ['assets/img/propiedades/07-casa-pueblo-becerril-1.jpg'],
+    idealista: 'https://www.idealista.com/inmueble/112017724/',
     destacado: true, vendido: false, visible: true
   },
   {
-    id: 5,
+    id: 8,
     titulo: 'Pareado en Moralzarzal',
     zona: 'Moralzarzal',
     operacion: 'venta',
@@ -83,69 +130,14 @@ const SM_SEED = [
     banos: 3,
     metros: 198,
     descripcion: 'Pareado de 198 m² en Moralzarzal, con cuatro dormitorios y tres baños. Distribución cómoda y luminosa en uno de los pueblos mejor comunicados de la sierra.',
-    fotos: ['https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80', 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=80'],
-    destacado: false, vendido: false, visible: true
-  },
-  {
-    id: 6,
-    titulo: 'Unifamiliar con gran parcela en Mataelpino',
-    zona: 'Mataelpino',
-    operacion: 'venta',
-    tipo: 'Unifamiliar',
-    precio: 480000,
-    habitaciones: 3,
-    banos: 2,
-    metros: 151,
-    descripcion: 'Vivienda unifamiliar de 151 m² sobre una parcela de 1.444 m² en Mataelpino. Tres dormitorios, dos baños y muchísimo terreno para disfrutar del entorno natural de El Boalo · Cerceda · Mataelpino.',
-    fotos: ['https://images.unsplash.com/photo-1775344215207-ed90e37ece72?w=1200&q=80', 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80'],
-    destacado: false, vendido: false, visible: true
-  },
-  {
-    id: 7,
-    titulo: 'Piso en Cerro Grande, Becerril de la Sierra',
-    zona: 'Becerril de la Sierra',
-    operacion: 'venta',
-    tipo: 'Piso',
-    precio: 355000,
-    habitaciones: 3,
-    banos: 2,
-    metros: 98,
-    descripcion: 'Reservada (arras firmadas). Piso de 98 m² en la urbanización Cerro Grande, en Becerril de la Sierra, con tres dormitorios y dos baños. Escríbeme si quieres que te avise de viviendas similares.',
-    fotos: ['https://images.unsplash.com/photo-1743432025864-6fe38295ec3b?w=1200&q=80', 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=80'],
-    destacado: false, vendido: false, visible: true
-  },
-  {
-    id: 8,
-    titulo: 'Adosado en Molino de la Cruz, Los Molinos',
-    zona: 'Los Molinos',
-    operacion: 'venta',
-    tipo: 'Adosado',
-    precio: 511000,
-    habitaciones: 4,
-    banos: 3,
-    metros: 211,
-    descripcion: 'Adosado de 211 m² en la zona de Molino de la Cruz, en Los Molinos. Cuatro dormitorios, tres baños y ambiente de pueblo serrano con buenas conexiones.',
-    fotos: ['https://framerusercontent.com/images/dKbRFyaTriY51LKHWyoz27yIS7M.jpg?width=1200', 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=80'],
-    destacado: false, vendido: false, visible: true
-  },
-  {
-    id: 9,
-    titulo: 'Pareado en Calle Aneto, Los Molinos',
-    zona: 'Los Molinos',
-    operacion: 'venta',
-    tipo: 'Pareado',
-    precio: 550000,
-    habitaciones: 4,
-    banos: 3,
-    metros: 206,
-    descripcion: 'Pareado de 206 m² en Calle Aneto, Los Molinos. Cuatro dormitorios y tres baños en una zona residencial tranquila y bien situada.',
-    fotos: ['https://images.unsplash.com/photo-1760878816701-cbdec5a74ad0?w=1200&q=80', 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80'],
+    fotos: ['assets/img/propiedades/08-pareado-moralzarzal-1.jpg'],
+    idealista: 'https://www.idealista.com/inmueble/111057691/',
     destacado: false, vendido: false, visible: true
   },
 
-  /* ===== VENDIDAS (salen en el carrusel de /vender) ===== */
+  /* ===== YA VENDIDAS (no salen en Comprar; alimentan el carrusel de Vender) ===== */
   {
-    id: 10,
+    id: 9,
     titulo: 'Gran unifamiliar en Becerril de la Sierra',
     zona: 'Becerril de la Sierra',
     operacion: 'venta',
@@ -154,8 +146,24 @@ const SM_SEED = [
     habitaciones: 8,
     banos: 4,
     metros: 346,
-    descripcion: 'Unifamiliar de 346 m² con ocho dormitorios en Becerril de la Sierra. Vendida.',
-    fotos: ['https://framerusercontent.com/images/HJGkPu1Tn0p0X3zkwOXSLKiFXJA.jpg?width=1200', 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80'],
+    descripcion: 'Unifamiliar de 346 m² en Becerril de la Sierra, con ocho dormitorios y cuatro baños. Vendida.',
+    fotos: ['assets/img/propiedades/09-unifamiliar-becerril-346-1.jpg'],
+    idealista: 'https://www.idealista.com/inmueble/109302231/',
+    destacado: false, vendido: true, visible: false
+  },
+  {
+    id: 10,
+    titulo: 'Piso en Cerro Grande, Becerril de la Sierra',
+    zona: 'Becerril de la Sierra',
+    operacion: 'venta',
+    tipo: 'Piso',
+    precio: 355000,
+    habitaciones: 3,
+    banos: 2,
+    metros: 98,
+    descripcion: 'Piso de 98 m² en la urbanización Cerro Grande de Becerril de la Sierra, con tres dormitorios y dos baños. Vendida.',
+    fotos: ['assets/img/propiedades/10-piso-cerro-grande-355-1.jpg'],
+    idealista: 'https://www.idealista.com/inmueble/111211220/',
     destacado: false, vendido: true, visible: false
   },
   {
@@ -168,8 +176,9 @@ const SM_SEED = [
     habitaciones: 7,
     banos: 4,
     metros: 0,
-    descripcion: 'Unifamiliar en la urbanización Serranía de la Paloma, en Collado Mediano. Siete dormitorios y cuatro baños. Vendida.',
-    fotos: ['https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=1200&q=80', 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80'],
+    descripcion: 'Unifamiliar en la urbanización Serranía de la Paloma, en Collado Mediano, con siete dormitorios y cuatro baños. Vendida.',
+    fotos: ['assets/img/propiedades/11-unifamiliar-serrania-paloma-collado-mediano-1.jpg'],
+    idealista: 'https://www.idealista.com/inmueble/109948200/',
     destacado: false, vendido: true, visible: false
   },
   {
@@ -182,8 +191,9 @@ const SM_SEED = [
     habitaciones: 4,
     banos: 3,
     metros: 0,
-    descripcion: 'Adosado de cuatro dormitorios y tres baños en Moralzarzal. Vendido.',
-    fotos: ['https://framerusercontent.com/images/dKbRFyaTriY51LKHWyoz27yIS7M.jpg?width=1200', 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=80'],
+    descripcion: 'Adosado en Moralzarzal, con cuatro dormitorios y tres baños. Vendida.',
+    fotos: ['assets/img/propiedades/12-adosado-moralzarzal-1.jpg'],
+    idealista: 'https://www.idealista.com/inmueble/110509743/',
     destacado: false, vendido: true, visible: false
   },
   {
@@ -196,8 +206,9 @@ const SM_SEED = [
     habitaciones: 4,
     banos: 2,
     metros: 160,
-    descripcion: 'Unifamiliar de 160 m² con cuatro dormitorios en Mataelpino. Vendida.',
-    fotos: ['https://images.unsplash.com/photo-1760878816701-cbdec5a74ad0?w=1200&q=80', 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80'],
+    descripcion: 'Unifamiliar de 160 m² en Mataelpino, con cuatro dormitorios y dos baños. Vendida.',
+    fotos: ['assets/img/propiedades/13-unifamiliar-mataelpino-160-1.jpg'],
+    idealista: 'https://www.idealista.com/inmueble/110768088/',
     destacado: false, vendido: true, visible: false
   },
   {
@@ -211,7 +222,8 @@ const SM_SEED = [
     banos: 3,
     metros: 234,
     descripcion: 'Unifamiliar de 234 m² en Becerril de la Sierra, con tres dormitorios y tres baños. Vendida.',
-    fotos: ['https://images.unsplash.com/photo-1775344215207-ed90e37ece72?w=1200&q=80', 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80'],
+    fotos: ['assets/img/propiedades/14-unifamiliar-becerril-234-1.jpg'],
+    idealista: 'https://www.idealista.com/inmueble/109617589/',
     destacado: false, vendido: true, visible: false
   },
   {
@@ -224,8 +236,8 @@ const SM_SEED = [
     habitaciones: 2,
     banos: 1,
     metros: 70,
-    descripcion: 'Piso de 70 m² en la urbanización Prado Jerez, en Navacerrada. Vendido.',
-    fotos: ['https://images.unsplash.com/photo-1776363284806-873eeef565a7?w=1200&q=80', 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=80'],
+    descripcion: 'Piso de 70 m² en la urbanización Prado Jerez, en Navacerrada, con dos dormitorios y un baño. Vendida.',
+    fotos: ['assets/img/propiedades/15-piso-prado-jerez-navacerrada-1.jpg'],
     destacado: false, vendido: true, visible: false
   },
   {
@@ -238,8 +250,8 @@ const SM_SEED = [
     habitaciones: 3,
     banos: 2,
     metros: 117,
-    descripcion: 'Piso de 117 m² en la urbanización Cerro Grande, en Becerril de la Sierra. Vendido.',
-    fotos: ['https://images.unsplash.com/photo-1743432025864-6fe38295ec3b?w=1200&q=80', 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=80'],
+    descripcion: 'Piso de 117 m² en la urbanización Cerro Grande de Becerril de la Sierra, con tres dormitorios y dos baños. Vendida.',
+    fotos: ['assets/img/propiedades/16-piso-cerro-grande-245-1.jpg'],
     destacado: false, vendido: true, visible: false
   },
   {
@@ -252,26 +264,12 @@ const SM_SEED = [
     habitaciones: 3,
     banos: 2,
     metros: 117,
-    descripcion: 'Piso de 117 m² en la urbanización Cerro Grande, en Becerril de la Sierra. Vendido.',
-    fotos: ['https://images.unsplash.com/photo-1645241910657-15bc4c16e0f2?w=1200&q=80', 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80'],
+    descripcion: 'Piso de 117 m² en la urbanización Cerro Grande de Becerril de la Sierra, con tres dormitorios y dos baños. Vendida.',
+    fotos: ['assets/img/propiedades/17-piso-cerro-grande-117-1.jpg'],
     destacado: false, vendido: true, visible: false
   },
   {
     id: 18,
-    titulo: 'Piso en Isla Lobeira, Collado Villalba',
-    zona: 'Collado Villalba',
-    operacion: 'venta',
-    tipo: 'Piso',
-    precio: 198000,
-    habitaciones: 1,
-    banos: 1,
-    metros: 76,
-    descripcion: 'Piso de 76 m² en la zona de Isla Lobeira, en Collado Villalba. Vendido.',
-    fotos: ['https://images.unsplash.com/photo-1776363284806-873eeef565a7?w=1200&q=80', 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=80'],
-    destacado: false, vendido: true, visible: false
-  },
-  {
-    id: 19,
     titulo: 'Piso en San Rafael',
     zona: 'San Rafael',
     operacion: 'venta',
@@ -280,12 +278,13 @@ const SM_SEED = [
     habitaciones: 3,
     banos: 2,
     metros: 81,
-    descripcion: 'Piso de 81 m² con tres dormitorios en San Rafael. Vendido.',
-    fotos: ['https://images.unsplash.com/photo-1743432025864-6fe38295ec3b?w=1200&q=80', 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80'],
+    descripcion: 'Piso de 81 m² en San Rafael, con tres dormitorios y dos baños. Vendida.',
+    fotos: ['assets/img/propiedades/18-piso-san-rafael-1.jpg'],
+    idealista: 'https://www.idealista.com/inmueble/109491204/',
     destacado: false, vendido: true, visible: false
   },
   {
-    id: 20,
+    id: 19,
     titulo: 'Unifamiliar en Las Zorreras, El Escorial',
     zona: 'El Escorial',
     operacion: 'venta',
@@ -294,26 +293,27 @@ const SM_SEED = [
     habitaciones: 2,
     banos: 2,
     metros: 139,
-    descripcion: 'Unifamiliar de 139 m² en Las Zorreras, El Escorial. Vendida la nuda propiedad.',
-    fotos: ['https://images.unsplash.com/photo-1760878816701-cbdec5a74ad0?w=1200&q=80', 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80'],
+    descripcion: 'Unifamiliar de 139 m² en Las Zorreras, El Escorial, con dos dormitorios y dos baños. Vendida la nuda propiedad.',
+    fotos: ['assets/img/propiedades/19-unifamiliar-las-zorreras-el-escorial-1.jpg'],
     destacado: false, vendido: true, visible: false
   },
   {
-    id: 21,
+    id: 20,
     titulo: 'Chalet independiente en Mataelpino',
     zona: 'Mataelpino',
     operacion: 'venta',
-    tipo: 'Chalet',
+    tipo: 'Unifamiliar',
     precio: 0,
     habitaciones: 4,
     banos: 2,
     metros: 223,
-    descripcion: 'Chalet independiente de 223 m² con cuatro dormitorios en Mataelpino. Vendido.',
-    fotos: ['https://images.unsplash.com/photo-1518780664697-55e3ad937233?w=1200&q=80', 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200&q=80'],
+    descripcion: 'Chalet independiente de 223 m² en Mataelpino, con cuatro dormitorios y dos baños. Vendida.',
+    fotos: ['assets/img/propiedades/20-independiente-mataelpino-1.jpg'],
+    idealista: 'https://www.idealista.com/inmueble/109383779/',
     destacado: false, vendido: true, visible: false
   },
   {
-    id: 22,
+    id: 21,
     titulo: 'Piso en Moralzarzal',
     zona: 'Moralzarzal',
     operacion: 'venta',
@@ -322,8 +322,9 @@ const SM_SEED = [
     habitaciones: 3,
     banos: 1,
     metros: 72,
-    descripcion: 'Piso de 72 m² con tres dormitorios en Moralzarzal. Vendido.',
-    fotos: ['https://images.unsplash.com/photo-1645241910657-15bc4c16e0f2?w=1200&q=80', 'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=1200&q=80'],
+    descripcion: 'Piso de 72 m² en Moralzarzal, con tres dormitorios y un baño. Vendida.',
+    fotos: ['assets/img/propiedades/21-piso-moralzarzal-1.jpg'],
+    idealista: 'https://www.idealista.com/inmueble/108789694/',
     destacado: false, vendido: true, visible: false
   }
 ];
