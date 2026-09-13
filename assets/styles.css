@@ -133,9 +133,57 @@ section{padding:90px 0}
 .page-head-foto .btn-line{border-color:#fff;color:#fff}
 .page-head-foto .btn-line:hover{background:#fff;color:var(--ink)}
 
-/* Aparición al hacer scroll (sutil y lenta, estilo editorial) */
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s ease var(--d,0s),transform .7s ease var(--d,0s)}
+/* =========================================================================
+   MOVIMIENTO — vocabulario compartido por todo el sitio
+   Una sola duración y una sola curva: es lo que hace que las 21 páginas
+   se sientan de la misma familia en vez de un collage de efectos.
+   ========================================================================= */
+:root{
+  --mov-dur:.72s;
+  --mov-curva:cubic-bezier(.22,.61,.36,1);
+  --mov-desp:24px;
+}
+
+/* Gesto 1 — SUBIR: títulos, textos y tarjetas entran desde abajo */
+.reveal{opacity:0;transform:translateY(var(--mov-desp));transition:opacity var(--mov-dur) var(--mov-curva) var(--d,0s),transform var(--mov-dur) var(--mov-curva) var(--d,0s)}
 .reveal.in{opacity:1;transform:none}
+
+/* Gesto 2 — FOTO: la imagen de dentro se desamplía mientras la tarjeta sube */
+.card.reveal .card-img-bg,
+.post.reveal .post-img{transform:scale(1.09);transition:transform 1.5s var(--mov-curva) var(--d,0s)}
+.card.in .card-img-bg,
+.post.in .post-img{transform:scale(1)}
+/* al pasar el ratón vuelve la transición corta de siempre */
+.card:hover .card-img-bg,.post:hover .post-img{transition-duration:.7s}
+
+/* Gesto 3 — CIFRA: los números cuentan hacia arriba (lo mueve el JS) */
+.num-anim{font-variant-numeric:tabular-nums}
+
+/* Gesto 4 — PORTADA: el texto del hero se va con el scroll */
+.hero-cont{will-change:transform,opacity}
+
+/* --- HILO CONECTOR -------------------------------------------------------
+   Recorre la página por la izquierda y se dibuja según bajas. Un punto por
+   sección, que se enciende al pasarlo. Los puntos llevan al hacer clic. */
+.hilo{position:fixed;left:0;top:0;bottom:0;width:52px;z-index:40;display:flex;align-items:center;justify-content:center;pointer-events:none}
+.hilo-riel{position:relative;width:1px;height:min(56vh,500px);background:var(--linea);transition:background .35s ease}
+.hilo-fill{position:absolute;left:0;top:0;width:1px;height:0;background:var(--clay);transition:height .12s linear}
+.hilo-pt{position:absolute;left:50%;width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;background:var(--bg);border:1px solid var(--linea);pointer-events:auto;cursor:pointer;padding:0;
+  transition:transform .38s var(--mov-curva),background .38s ease,border-color .38s ease}
+.hilo-pt:hover{transform:scale(1.6)}
+.hilo-pt.on{background:var(--clay);border-color:var(--clay);transform:scale(1.45)}
+.hilo-pt.on:hover{transform:scale(1.9)}
+.hilo-et{position:absolute;left:22px;top:50%;transform:translateY(-50%) translateX(-6px);white-space:nowrap;font-size:10px;letter-spacing:.9px;text-transform:uppercase;font-weight:600;color:var(--verde);background:var(--card);border:1px solid var(--linea);padding:5px 10px;opacity:0;pointer-events:none;transition:opacity .28s ease,transform .28s var(--mov-curva)}
+.hilo-pt:hover .hilo-et{opacity:1;transform:translateY(-50%) translateX(0)}
+/* sobre la foto de portada el hilo se aclara para seguir viéndose */
+.hilo.claro .hilo-riel{background:rgba(255,255,255,.3)}
+.hilo.claro .hilo-pt{background:rgba(24,34,28,.35);border-color:rgba(255,255,255,.55)}
+.hilo.claro .hilo-pt.on{background:var(--sage);border-color:var(--sage)}
+
+/* Cabecera compacta al bajar */
+header.site.mini nav{height:62px}
+header.site nav{transition:height .35s var(--mov-curva)}
+
 
 /* anclas: que no queden bajo la cabecera fija */
 [id]{scroll-margin-top:92px}
@@ -432,12 +480,22 @@ footer.site .remax-badge .rm-lema{color:var(--ink-soft)}
   .hero-media,.page-head-foto .ph-media{animation:none}
   .hero-cont .eyebrow,.hero-cont h1,.hero-cont p,.hero-cta,.hero-chips,.hero-scroll{animation:none;opacity:1;transform:none}
   .reveal{opacity:1;transform:none;transition:none}
+  .card.reveal .card-img-bg,.post.reveal .post-img{transform:none;transition:none}
+  .hero-cont{transform:none!important;opacity:1!important}
+  .hilo-fill{transition:none}
+  .hilo-pt{transition:none}
+  header.site nav{transition:none}
   .card,.post,.guia,.card-img-bg,.post-img,.btn{transition:none}
   html{scroll-behavior:auto}
 }
 
 /* RESPONSIVE */
 @media(max-width:900px){
+  .hilo{width:3px;left:0;align-items:stretch}
+  .hilo-riel{width:3px;height:100%;background:transparent}
+  .hilo-fill{width:3px}
+  .hilo-pt{display:none}
+
   .hero .wrap,.contacto .wrap,.perfil .wrap{grid-template-columns:1fr;gap:40px}
   .hero-foto,.perfil img{max-width:440px;margin:0 auto}
   .grid,.grid-2,.ayuda-grid,.pasos-grid,.pasos-grid.pasos-4,.testi-grid,.guias-grid,.blog-grid,.benef-grid{grid-template-columns:1fr 1fr}

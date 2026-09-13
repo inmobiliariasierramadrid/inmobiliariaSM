@@ -150,11 +150,184 @@ function smEnviar(e, okId){
   return false;
 }
 
+
+/* =========================================================================
+   MOVIMIENTO AL HACER SCROLL
+   Hilo conector · parallax de portada · cabecera compacta · contadores
+   Todo con JS nativo: ni GSAP ni CDNs. Si el usuario pide movimiento
+   reducido en su sistema, nada de esto se activa.
+   ========================================================================= */
+
+function smMovReducido(){
+  return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+}
+
+/* --- Hilo conector -------------------------------------------------------
+   Riel fijo a la izquierda con un punto por sección. El relleno crece con el
+   scroll y cada punto se enciende justo cuando su sección queda alcanzada. */
+var smHilo = { el:null, fill:null, puntos:[], secs:[] };
+
+function smCrearHilo(){
+  if (smHilo.el) return;
+  // Preferimos las secciones; las fichas de vivienda y los artículos del blog
+  // no las usan, así que ahí nos apoyamos en los títulos h2.
+  var secs = [].slice.call(document.querySelectorAll('section'));
+  if (secs.length < 2) secs = [].slice.call(document.querySelectorAll('h2'));
+  if (secs.length < 2) return;   // con menos de dos hitos el hilo no aporta nada
+
+  var cont = document.createElement('div');
+  cont.className = 'hilo';
+  cont.setAttribute('aria-hidden','true');
+  var riel = document.createElement('div');
+  riel.className = 'hilo-riel';
+  var fill = document.createElement('div');
+  fill.className = 'hilo-fill';
+  riel.appendChild(fill);
+
+  secs.forEach(function(sec, i){
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'hilo-pt';
+    var t = (sec.tagName === 'H2') ? sec : sec.querySelector('h1, h2, .eyebrow');
+    var nombre = t ? t.textContent.trim().replace(/\s+/g,' ').slice(0,34) : ('Sección ' + (i+1));
+    b.setAttribute('aria-label', 'Ir a: ' + nombre);
+    var et = document.createElement('span');
+    et.className = 'hilo-et';
+    et.textContent = nombre;
+    b.appendChild(et);
+    b.addEventListener('click', function(){
+      sec.scrollIntoView({ behavior: smMovReducido() ? 'auto' : 'smooth', block:'start' });
+    });
+    riel.appendChild(b);
+    smHilo.puntos.push(b);
+  });
+
+  cont.appendChild(riel);
+  document.body.appendChild(cont);
+  smHilo.el = cont;
+  smHilo.fill = fill;
+  smHilo.secs = secs;
+  smColocarHilo();
+}
+
+var smMedidas = { scrollable:1, heroAlto:0, heroFin:0 };
+
+/* Las medidas se toman aquí y solo aquí: así el manejador de scroll no lee
+   el layout en cada píxel (que es lo que provoca tirones). */
+function smMedir(){
+  smMedidas.scrollable = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+  var hero = document.querySelector('.hero-full');
+  smMedidas.heroAlto = hero ? hero.offsetHeight : 0;
+  var foto = document.querySelector('.hero-full, .page-head-foto');
+  smMedidas.heroFin = foto ? (foto.getBoundingClientRect().top + window.scrollY + foto.offsetHeight) : 0;
+}
+
+function smColocarHilo(){
+  if (!smHilo.el) return;
+  var scrollable = smMedidas.scrollable;
+  smHilo.secs.forEach(function(sec, i){
+    var top = sec.getBoundingClientRect().top + window.scrollY;
+    var pct = (top - window.innerHeight * 0.4) / scrollable;
+    pct = Math.max(0, Math.min(1, pct));
+    smHilo.puntos[i].style.top = (pct * 100) + '%';
+    smHilo.puntos[i].dataset.pct = pct;
+  });
+}
+
+function smPintarHilo(y){
+  if (!smHilo.el) return;
+  var avance = Math.max(0, Math.min(1, y / smMedidas.scrollable));
+  smHilo.fill.style.height = (avance * 100) + '%';
+  smHilo.puntos.forEach(function(b){
+    b.classList.toggle('on', avance >= (parseFloat(b.dataset.pct) || 0) - 0.004);
+  });
+  // sobre la foto de portada el hilo se aclara para seguir viéndose
+  smHilo.el.classList.toggle('claro', smMedidas.heroFin > y + window.innerHeight * 0.5);
+}
+
+/* --- Portada: el texto se va con el scroll ------------------------------- */
+var smHeroCont = null;
+function smParallaxHero(y){
+  if (smMovReducido()) return;
+  if (smHeroCont === null) smHeroCont = document.querySelector('.hero-full .hero-cont') || false;
+  if (!smHeroCont) return;
+  var alto = smMedidas.heroAlto || 1;
+  if (y > alto) return;
+  smHeroCont.style.transform = 'translateY(' + (y * 0.22) + 'px)';
+  smHeroCont.style.opacity = String(Math.max(0, 1 - (y / (alto * 0.8))));
+}
+
+/* --- Contadores: los números suben hasta su valor ------------------------ */
+var smIoNum = null;
+function smContadores(){
+  if (smMovReducido() || !('IntersectionObserver' in window)) return;
+  var els = [].slice.call(document.querySelectorAll('.ficha-specs .n, .stat .n, .stat strong'))
+    .filter(function(el){
+      if (el.dataset.contado) return false;
+      // solo cifras puras: "98" sí, "Piso" o "445.900 €" no
+      return /^\d{1,4}$/.test(el.textContent.trim());
+    });
+  if (!els.length) return;
+  var io = smIoNum || (smIoNum = new IntersectionObserver(function(entradas){
+    entradas.forEach(function(en){
+      if (!en.isIntersecting) return;
+      var el = en.target;
+      smIoNum.unobserve(el);
+      el.dataset.contado = '1';
+      el.classList.add('num-anim');
+      var fin = parseInt(el.textContent.trim(), 10);
+      var ini = performance.now(), dur = 900;
+      (function paso(ahora){
+        var t = Math.min(1, (ahora - ini) / dur);
+        var e = 1 - Math.pow(1 - t, 3);            // desacelera al final
+        el.textContent = Math.round(fin * e);
+        if (t < 1) requestAnimationFrame(paso); else el.textContent = fin;
+      })(ini);
+    });
+  }, { threshold: 0.6 }));
+  els.forEach(function(el){ io.observe(el); });
+}
+
+/* --- Un solo manejador de scroll para todo -------------------------------
+   Síncrono a propósito: con las medidas ya cacheadas aquí solo se hacen
+   cuentas y escrituras de estilo, nunca lecturas del layout. Un rAF con
+   bandera se quedaría colgado para siempre si un frame no llegase. */
+var smHeaderEl = null;
+function smOnScroll(){
+  var y = window.scrollY;
+  smPintarHilo(y);
+  smParallaxHero(y);
+  if (smHeaderEl === null) smHeaderEl = document.querySelector('header.site') || false;
+  if (smHeaderEl) smHeaderEl.classList.toggle('mini', y > 140);
+}
+
+function smInitMovimiento(){
+  smMedir();
+  smCrearHilo();
+  smContadores();
+  smOnScroll();
+  window.addEventListener('scroll', smOnScroll, { passive:true });
+  /* Misma red de seguridad que ya usa la cabecera: hay navegadores y webviews
+     donde el evento scroll no llega. Comparar un número cada 200 ms no cuesta
+     nada y evita que el hilo se quede congelado. */
+  var smUltimaY = -1;
+  setInterval(function(){
+    if (window.scrollY !== smUltimaY){ smUltimaY = window.scrollY; smOnScroll(); }
+  }, 200);
+  window.addEventListener('resize', function(){ smMedir(); smColocarHilo(); smOnScroll(); }, { passive:true });
+  // el contenido se pinta con JS (propiedades, reseñas) y las fotos cambian la
+  // altura al cargar: volvemos a medir un par de veces
+  window.addEventListener('load', function(){ smMedir(); smColocarHilo(); smOnScroll(); });
+  setTimeout(function(){ smMedir(); smColocarHilo(); smOnScroll(); smContadores(); }, 700);
+  setTimeout(function(){ smMedir(); smColocarHilo(); smOnScroll(); smContadores(); }, 2000);
+}
+
 /* --- Año dinámico en el footer + botón flotante de WhatsApp --------------- */
 document.addEventListener('DOMContentLoaded', function(){
   document.querySelectorAll('[data-anio]').forEach(function(x){ x.textContent = new Date().getFullYear(); });
   smHeaderState();
   smScanReveals();
+  smInitMovimiento();
 
   // Botón flotante de WhatsApp en todas las páginas públicas
   if (!document.querySelector('.wa-float')){
